@@ -21,14 +21,14 @@ export default class Groups extends Component {
                 //limitToFirst: 4
             },
             then(){
-                base.removeBinding(this.groupsRef);
+                //base.removeBinding(this.groupsRef);
             }
         });
     }
 
-    /*componentDidMount () {
-        this.getSingleGroup("27c4b916-f568-46a6-8247-9cd819e0c43b")
-    }*/
+    componentDidMount () {
+        //this.getSingleGroup("27c4b916-f568-46a6-8247-9cd819e0c43b")
+    }
 
     getSingleGroup (id) {
         base.fetch('groups', {
@@ -44,7 +44,7 @@ export default class Groups extends Component {
 
     deleteGroup = (id) => {
         const {groups} = this.state;
-        const newGroups = groups.filter((group) => {return group.key !== id });
+        const newGroups = groups.filter((group) => {return group.key !== id }).map((group) => { return {id: id, ...group} }) ;
         this.setState({groups: newGroups});
     }
     
@@ -55,8 +55,10 @@ export default class Groups extends Component {
         }) : []
         return (
             <div className="container">
-                <Link className="btn btn-info mb-3 pull-right" to='create_group'> Add </Link>
-                {groupsRender}
+                <p className="text-right my-4"><Link to='create_group'> Add WorkGroup </Link></p>
+                <div className="mt-3">
+                    { groupsRender[0] ? groupsRender : (<h5 className="text-center mt-5"> UPS! Seems there is not Workgroups</h5>) }
+                </div>
             </div>
         )
     }

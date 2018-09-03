@@ -1,0 +1,9 @@
+.active {
+    border-bottom: solid 2px white;
+}
+
+.myNavbar {
+    position: fixed !important;
+    width: 100%;
+    z-index: 10;
+}
