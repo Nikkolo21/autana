@@ -44,7 +44,7 @@ export const countries = [
     {"name": "Chile", "code": "CL", "icon": "chile.png"},
     {"name": "China", "code": "CN", "icon": "china.png"},
     {"name": "Christmas Island", "code": "CX", "icon": "christmasislands.png"},
-    {"name": "Cocos (Keeling) Islands", "code": "CC", "icon": "cocosislands.png"},
+    {"name": "Cocos (Keeling) Islands", "code": "CC", "icon": "cocosisland.png"},
     {"name": "Colombia", "code": "CO", "icon": "colombia.png"},
     {"name": "Comoros", "code": "KM", "icon": "comoros.png"},
     {"name": "Congo, The Democratic Republic of the", "code": "CD", "icon": "congo.png"},
