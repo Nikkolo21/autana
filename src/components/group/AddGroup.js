@@ -54,26 +54,28 @@ export default class AddGroup extends Component {
     return (
       <div className="container mt-5">
         <div className="card basic-form mx-2">
-          <div className="text-center text-white card-header bg-addGroup py-5">
-            <h4>Create a Nomad Workplace</h4>
+          <div className="text-right d-none d-sm-block py-5 px-5">
+            <Link to='/groups'> Go back</Link>
           </div>
-          <div className="card-body py-5 px-5">
-            <p className="text-right">
-              <Link to='/groups'> Go back to WorkGroup List</Link>
-            </p>
-            <div className="form-group">
-                <label>Title</label>
-                <input type="text" className="my-form-control py-4 px-4" name="title" id="title" onChange={this.handleEvent}/>
+          <div className="text-center text-white card-header bg-addGroup py-5">
+            <h3 className="title">Create a Nomad Workplace</h3>
+          </div>
+          <div className="card-body py-5 px-md-5">
+            <div className="px-md-5">
+              <div className="form-group">
+                  <label>Title</label>
+                  <input type="text" className="my-form-control py-4 px-4" name="title" id="title" onChange={this.handleEvent}/>
+              </div>
+              <div className="form-group">
+                  <label>Description</label>
+                  <input type="text" className="my-form-control py-4 px-4" name="description" id="description" onChange={this.handleEvent}/>
+              </div>
+              <div className="form-group">
+                  <label>Clients</label>
+                  <input type="text" className="my-form-control py-4 px-4" name="users" id="users" onChange={this.handleEvent}/>
+              </div>
+              {searchCountry}
             </div>
-            <div className="form-group">
-                <label>Description</label>
-                <input type="text" className="my-form-control py-4 px-4" name="description" id="description" onChange={this.handleEvent}/>
-            </div>
-            <div className="form-group">
-                <label>Clients</label>
-                <input type="text" className="my-form-control py-4 px-4" name="users" id="users" onChange={this.handleEvent}/>
-            </div>
-            {searchCountry}
             <div className="text-center">
               <button type="submit" className={this.state.buttonClass + " btn btn-light btn-lg px-4"} onClick={this.addGroup}>Create</button>
             </div>

@@ -41,11 +41,13 @@ export default class SearchCountry extends Component {
     }
   
     render() {
-        let qc = this.state.searchedCountries.map((qc, i) => {
+        let queryCountries = this.state.searchedCountries.map((qc, i) => {
             return (<p className="click" key={i} onClick={this.addCountry.bind(this, qc)}> {qc.name}</p>)
         })
-        let sc = this.state.selectedCountries.map((sc, i) => {
-            return (<div className="click selectedCountry py-3 px-3 mx-1" onClick={this.deleteCountry.bind(this, sc)} key={i}> {sc.name}</div>)
+        let selectedCountries = this.state.selectedCountries.map((sc, i) => {
+            return (<div title={sc.name} className="click selectedCountry py-1 py-md-3 px-1 px-md-3 mx-1" onClick={this.deleteCountry.bind(this, sc)} key={i}>
+                        <img alt={sc.name} className="selectedCountryImg" src={`/imgs/flags/${sc.icon}`}/>
+                    </div>)
         })
         return (
             <div>
@@ -55,10 +57,10 @@ export default class SearchCountry extends Component {
                 </div>
                 <div className="form-group mb-5">
                     <div type="text" className="holo py-4 px-4" name="users" id="users">
-                        {qc}
+                        {queryCountries}
                     </div>
                 </div>
-                <div className="row mb-4 mx-2">{sc}</div>
+                <div className="row mb-4 mx-2">{selectedCountries}</div>
             </div>
         )
     }
