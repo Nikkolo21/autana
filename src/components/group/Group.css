@@ -3,6 +3,10 @@ body {
     background-color: rgba(10, 10, 10, 0.03) !important;
 }
 
+.title {
+    color: #dc3545;
+}
+
 .basic-form {
     background-color: white;
 }
@@ -46,12 +50,16 @@ body {
 .selectedCountry {
     font-size: 12px;
     color: black;
-    background-color: rgba(10, 10, 10, 0.05);
+    background-color: rgba(1, 126, 255, 0.05);
 }
 
 .selectedCountryImg {
     height: 3rem;
     width: 3rem;
+}
+.queryCountryImg {
+    height: 1rem;
+    width: 1rem;
 }
 
 .holo {
@@ -72,8 +80,4 @@ body {
 
 .click {
     cursor: pointer;
-}
-
-.title {
-    color: #dc3545;
 }

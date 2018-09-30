@@ -14,13 +14,11 @@ export default class SearchCountry extends Component {
     }
 
     searchCountry (e) {
+        let count = 0;
         e.target.value ? 
           this.setState({searchedCountries: 
             countries.filter((country) => {
-              if (new RegExp(e.target.value, "i").test(country.name)) {
-                return country;
-              }
-              return null;
+              return new RegExp(e.target.value, "i").test(country.name) && count++ < 5;
             })
           })
         :
@@ -28,8 +26,10 @@ export default class SearchCountry extends Component {
     }
 
     addCountry (e) {
-        this.setState({searchedCountries: [], selectedCountries: this.state.selectedCountries.concat(e)})
-        this.props.method(this.state.selectedCountries.concat(e));
+        if(!this.state.selectedCountries.includes(e)) {
+            this.setState({searchedCountries: [], selectedCountries: this.state.selectedCountries.concat(e)})
+            this.props.method(this.state.selectedCountries.concat(e));
+        }
     }
 
     deleteCountry(e) {
@@ -42,10 +42,15 @@ export default class SearchCountry extends Component {
   
     render() {
         let queryCountries = this.state.searchedCountries.map((qc, i) => {
-            return (<p className="click" key={i} onClick={this.addCountry.bind(this, qc)}> {qc.name}</p>)
+            return (<div className={`${this.state.selectedCountries.includes(qc)? "selectedCountry ":"click "} p-3`}
+                    title={this.state.selectedCountries.includes(qc)? "Already selected":""}
+                    key={i} onClick={this.addCountry.bind(this, qc)}> 
+                        <span className="d-block d-sm-none">{qc.code} <img alt={qc.name} className="queryCountryImg" src={`/imgs/flags/${qc.icon}`}/> </span>
+                        <span className="d-none d-sm-block">{qc.name} </span>
+                    </div>)
         })
         let selectedCountries = this.state.selectedCountries.map((sc, i) => {
-            return (<div title={sc.name} className="click selectedCountry py-1 py-md-3 px-1 px-md-3 mx-1" onClick={this.deleteCountry.bind(this, sc)} key={i}>
+            return (<div title={sc.name} className="click selectedCountry py-1 py-md-3 px-1 px-md-3 mx-1 mb-2" onClick={this.deleteCountry.bind(this, sc)} key={i}>
                         <img alt={sc.name} className="selectedCountryImg" src={`/imgs/flags/${sc.icon}`}/>
                     </div>)
         })
@@ -56,7 +61,7 @@ export default class SearchCountry extends Component {
                     <input type="text" className="my-form-control py-4 px-4" name="users" id="users" onChange={this.searchCountry}/>
                 </div>
                 <div className="form-group mb-5">
-                    <div type="text" className="holo py-4 px-4" name="users" id="users">
+                    <div type="text" className="holo" name="users" id="users">
                         {queryCountries}
                     </div>
                 </div>

@@ -19,17 +19,17 @@ export default class Group extends Component {
       return (
         <div className="py-5 px-5 card card-body mb-3">
           <h4 className="" onClick={() => this.setState({showInfo: !this.state.showInfo})}>{title}
-            <i className="fas fa-times" style={{float: 'right', color: 'red', cursor: 'pointer'}} onClick={this.onDeleteClick}></i>
+            <i className="fas fa-times" style={{float: 'right', color: 'pink', cursor: 'pointer'}} onClick={this.onDeleteClick}></i>
           </h4>
           { showInfo ? 
           (
-            <ul className="list-group">
-            <li className="list-group-item">{description}</li>
-            <li className="list-group-item">{users}</li>
-            <li className="list-group-item">
-              {countries.map((c, i) => {return <span key={i} className="m-2"> {c.name} </span>})}
-            </li>
-          </ul>
+            <ul className="list-group mt-4">
+              <li className="list-group-item">{description}</li>
+              <li className="list-group-item">{users}</li>
+              <li className="list-group-item">
+                {countries.map((c, i) => {return <span key={i} className="m-2"> {c.name} - </span>})}
+              </li>
+            </ul>
           ) : null}
       </div>
     )

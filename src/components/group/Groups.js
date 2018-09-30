@@ -13,7 +13,7 @@ export default class Groups extends Component {
     }
 
     componentWillMount () {
-        this.groupsRef = base.syncState('groups', {
+        this.groupsRef = base.syncState(`${this.props.uid}/workspaces`, {
             context: this,
             state: 'groups',
             asArray: true,

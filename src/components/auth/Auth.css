@@ -1,0 +1,8 @@
+.cardContainer {
+    width: 40rem !important;
+    max-width: 90vw !important;
+}
+.myRecaptcha {
+    margin: 0 auto;
+    width: 304px;
+}
