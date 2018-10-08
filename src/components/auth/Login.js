@@ -23,7 +23,7 @@ export default class Login extends Component {
     login = () => {
         if (this.validForm) {
             auth.signInWithEmailAndPassword(this.state.email, this.state.password).then(user => {
-                this.setState({toGroups: true});
+                this.setState({toHome: true});
             }).catch((e)=> {
                 console.log(e.message);
             });
@@ -31,17 +31,17 @@ export default class Login extends Component {
     }
 
     render() {
-        if (this.state.toGroups) {
+        if (this.state.toHome) {
             return <Redirect to='/home'/>
         }
         let button = this.validForm() ? "enabled ": "disabled ";
         return (
-            <div className="container my-5 cardContainer">
+            <div className="container my-5 authContainer">
                 <div className="card basic-form mx-2">
                     <div className="text-right pt-5 pr-5">
                         <Link to='/home'> Go back</Link>
                     </div>
-                    <div className="text-center text-white card-header bg-addGroup pt-2">
+                    <div className="text-center text-white card-header bg-addProject pt-2">
                         <img style={{"height":"150px", "width":"150px"}} src={`/imgs/bridge.png`} alt="login"/>
                     </div>
                     <div className="card-body pb-3 pt-2 px-md-5">

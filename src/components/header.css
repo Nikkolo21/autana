@@ -1,4 +1,4 @@
-.active {
+.navbarActive {
     border-bottom: solid 2px #414141;
 }
 
@@ -10,6 +10,7 @@
 
 .nav-link{
     color: #414141 !important;
+    padding: 0.5rem 0.5rem !important;
 }
 
 .myLogo {

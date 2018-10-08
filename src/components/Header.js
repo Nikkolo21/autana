@@ -1,67 +1,75 @@
-import React from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import * as routes from '../constants/routes';
 import './header.css';
 import { auth } from '../base';
+import Modal from './util/Modal';
+import AddAtom from './atom/AddAtom';
 const wc = require('which-country'); //Geo reverse country
 
-let showPosition = (position) => {
-  console.log(wc([position.coords.longitude, position.coords.latitude]));
-}
-
-let getLocation = () => {
-  navigator.geolocation ? navigator.geolocation.getCurrentPosition(showPosition) : console.log("Geolocation is not supported by this browser.");
-}
-
-let signOut = () => {
-  auth.signOut().then(() => {
-    console.log("getOut");
-  });
-}
-
-getLocation();
-
-const Header = props => {
-  return (
-    <nav className="navbar navbar-expand-sm navbar-light bg-white mb-3 py-4 px-xs-2 px-sm-5">
-      <NavLink to={routes.HOME} className="navbar-brand myLogo">{props.branding}</NavLink>
-      <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span className="navbar-toggler-icon myToggle"></span>
-      </button>
-      <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        
-          { props.loggedIn ? 
-          (<ul className="navbar-nav ml-auto myHeaderNav">
-            <li className="nav-item">
-              <NavLink to={routes.GROUPS} className="nav-link">My groups</NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink to={routes.PROFILE} className="nav-link">Profile</NavLink>
-            </li>
-            <li className="nav-item">
-              <a style={{"cursor": "pointer"}} className="nav-link signOut" onClick={signOut}>SignOut</a>
-            </li>
-          </ul>):
-          (
-          <ul className="navbar-nav ml-auto myHeaderNav">
-            <li className="nav-item">
-              <NavLink to={routes.LOGIN} className="nav-link">Login</NavLink>
-            </li>
-          </ul>
-          )}
-        
+export default class Header extends Component {
+  constructor () {
+    super();
+    this.state = {
+      modalIsOpen: false
+    }
+  } 
+  showPosition = (position) => {
+    console.log(wc([position.coords.longitude, position.coords.latitude]));
+  }
+  
+  getLocation = () => {
+    navigator.geolocation ? navigator.geolocation.getCurrentPosition(this.showPosition) : console.log("Geolocation is not supported by this browser.");
+  }
+  
+  signOut = () => {
+    auth.signOut().then(() => {
+      console.log("getOut");
+    });
+  }
+  
+  openModal = () => {
+    this.setState({modalIsOpen: true});
+  }
+  
+  closeModal = () => {
+    this.setState({modalIsOpen: false});
+  }
+  
+  render() {
+    let {modalIsOpen} = this.state;
+    return (
+      <div className="bg-white mb-3 py-4 px-xs-2 px-sm-5">
+        <div className="d-flex justify-content-between">
+          <NavLink to={routes.HOME} className="navbar-brand myLogo align-self-center">{this.props.branding}</NavLink>
+          { this.props.loggedIn ?
+            ( this.props.loggedIn.logged ?
+              ( <div className="d-flex pt-3">
+                  <button className="btn btn-sm btn-info align-self-center mb-2 mr-2" onClick={this.openModal}>Create Atom</button>
+                  <NavLink activeClassName="navbarActive" to={routes.PROJECTS} className="nav-link">Projects</NavLink>
+                  <NavLink activeClassName="navbarActive" to={routes.ATOMS} className="nav-link">Atoms</NavLink>
+                  <NavLink activeClassName="navbarActive" to={routes.PROFILE} className="nav-link">Profile</NavLink>
+                  <a style={{"cursor": "pointer"}} className="nav-link signOut" onClick={this.signOut}>Logout</a>
+                </div>):
+              ( <div className="d-flex">
+                  <NavLink activeClassName="navbarActive" to={routes.LOGIN} className="mt-3 nav-link">Login</NavLink>
+                </div>)
+            ):
+            ("")
+          }
+          </div>
+          {
+            modalIsOpen ? 
+              (<Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal}>
+                <AddAtom closeModal={this.closeModal}/>
+              </Modal>) : ("")
+          }
       </div>
-    </nav>
-  )
-};
-
-Header.defaultProps = {
-  branding: "no-mad"
+    )
+  }
 };
 
 Header.propTypes = {
   branding: PropTypes.string.isRequired
 }
-
-export default Header;

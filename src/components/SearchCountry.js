@@ -57,7 +57,7 @@ export default class SearchCountry extends Component {
         return (
             <div>
                 <div className="form-group noMarginBot">
-                    <label>{this.props.searchLabel}</label>
+                    <label>{this.props.searchLabel}*</label>
                     <input type="text" className="my-form-control py-4 px-4" name="users" id="users" onChange={this.searchCountry}/>
                 </div>
                 <div className="form-group mb-5">

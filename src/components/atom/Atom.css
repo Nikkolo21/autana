@@ -1,0 +1,10 @@
+.addAtomBody {
+    height: auto;
+    width: 80vw;
+}
+
+@media only screen and (max-width: 768px) {
+    .addAtomBody {
+        width: 95vw;
+    }
+}

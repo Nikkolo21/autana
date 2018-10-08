@@ -4,7 +4,7 @@ body {
 }
 
 .title {
-    color: #dc3545;
+    color: #358bdc;
 }
 
 .basic-form {
@@ -12,7 +12,7 @@ body {
 }
 
 .card {
-    border: 1px solid rgba(0,0,0,.05) !important;
+    border: 1px solid rgba(0,0,0,.1);
 }
 
 .my-form-control {
@@ -42,7 +42,7 @@ body {
     box-shadow: 0 0 0 0.1rem rgba(247,22,82,.25);
 }
 
-.bg-addGroup {
+.bg-addProject {
     background-color:  white !important;
     border-bottom: none !important;
 }
@@ -80,4 +80,40 @@ body {
 
 .click {
     cursor: pointer;
+}
+
+.addProjectContainer {
+    width: 60rem !important;
+    max-width: 90vw !important;
+
+}
+
+.projectTitle {
+    text-decoration: none !important; 
+    color: rgba(10,10,10,0.7);
+}
+
+.tagColor {
+    width: 60px;
+    height: 40px; 
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+    transition: .1s;
+}
+
+.tagActive {
+    width: 65px;
+    height: 42px;
+    transition: .1s;
+    border-radius: 0px;
+}
+
+.deleteX {
+    right: 20px;
+    top: 20px;
+    font-size: 20px;
+    color: pink; 
+    cursor: pointer;
+    position: absolute;
 }
