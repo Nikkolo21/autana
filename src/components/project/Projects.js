@@ -20,9 +20,12 @@ export default class Projects extends Component {
                 //limitToFirst: 4
             },
             then(){
-                //base.removeBinding(this.projectsRef);
             }
         });
+    }
+
+    componentWillUnmount () {
+        base.removeBinding(this.projectsRef);
     }
     
     render() {

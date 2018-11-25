@@ -45,6 +45,10 @@ export default class AddProject extends Component {
   getSelectedCountries = (countries) => {
     this.setState({selectedCountries: countries});
   }
+
+  selectColor = (color) => {
+    this.setState({tagColor: color !== this.state.tagColor ? color: ""});
+  }
   
   validForm = () => {
     let {name, tag, description, tagColor, selectedCountries} = this.state;
@@ -87,8 +91,10 @@ export default class AddProject extends Component {
                   <div className="row px-4">
                     {
                       tagColors.map((color, index) => {
-                        let active = color === tagColor ? "tagActive" : "";
-                        return <div key={index} onClick={() => this.setState({tagColor: color})} className={`mr-1 mb-1 tagColor ${active}`} style={{backgroundColor: color, }}></div>
+                        let active = color === tagColor;
+                        return (<div key={index} onClick={this.selectColor.bind(this, color)} className={`mr-1 mb-1 tagColor ${active ? "tagActive":""}`} style={{backgroundColor: color}}>
+                          { active ? (<i className="fa fa-check" style={{color: "white"}}></i>) : "" }
+                        </div>)
                       })
                     }
                   </div>

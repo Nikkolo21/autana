@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Switch, Route, Redirect } from 'react-router-dom';
 import { auth } from './base';
-
 import Projects from './components/project/Projects';
 import Atoms from './components/atom/Atoms';
 import ShowProject from './components/project/ShowProject';
@@ -35,7 +34,7 @@ export default class App extends Component {
     return (
       <Switch>
         <div>
-          <Header branding="" loggedIn={this.state.responseLogin}/>
+          <Header uid={this.state.uid} loggedIn={this.state.responseLogin}/>
           <Route exact path={routes.HOME} component={PublicHomePage}/>
           <Route exact path={routes.LOGIN} render={() => (
             this.redirectOrNot(RESP_LOGGED && !this.state.responseLogin.logged, <Login/>, '/home')
