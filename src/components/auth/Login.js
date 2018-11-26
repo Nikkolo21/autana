@@ -8,6 +8,7 @@ export default class Login extends Component {
     constructor () {
       super();
       this.state = {
+          toHome: false,
       }
     }
 
@@ -15,14 +16,11 @@ export default class Login extends Component {
         this.setState({[e.target.name]: e.target.value});
     }
 
-    validForm = () => {
-        const {email, password} = this.state;
-        return email && password;
-    }
-
-    login = () => {
-        if (this.validForm) {
-            auth.signInWithEmailAndPassword(this.state.email, this.state.password).then(user => {
+    login = (evn) => {
+        evn.preventDefault();
+        const { email, password } = this.state;
+        if (email && password) {
+            auth.signInWithEmailAndPassword(email, password).then(user => {
                 this.setState({toHome: true});
             }).catch((e)=> {
                 console.log(e.message);
@@ -31,13 +29,14 @@ export default class Login extends Component {
     }
 
     render() {
-        if (this.state.toHome) {
+        const  { toHome, email, password } = this.state;
+        if (toHome) {
             return <Redirect to='/home'/>
         }
-        let button = this.validForm() ? "enabled ": "disabled ";
+        let button = email && password ? "enabled ": "disabled ";
         return (
             <div className="container my-5 authContainer">
-                <div className="card basic-form mx-2">
+                <form className="card basic-form mx-2" onSubmit={this.login}>
                     <div className="text-right pt-5 pr-5">
                         <Link to='/home'> Go back</Link>
                     </div>
@@ -56,13 +55,12 @@ export default class Login extends Component {
                         </div>
                         </div>
                         <div className="text-center">
-                            <button type="submit" className={`${button} btn btn-light btn-lg px-4`}
-                                onClick={this.login}>Login
+                            <button type="submit" className={`${button} btn btn-light btn-lg px-4`}>Login
                             </button>
                             <p className="mt-4"> Do not you have an account? <Link to={routes.REGISTER}>Register</Link> </p>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
         )
     }

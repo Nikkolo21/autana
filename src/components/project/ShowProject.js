@@ -15,14 +15,6 @@ export default class ShowProject extends Component {
                 }
             }
         });
-
-        /*this.ref = base.post(`users/${this.props.uid}/projects/${projectId}/atoms/${uuidv4()}`, {
-            data: {title: "hi"}
-        }).then(error => {
-            if(!error) {
-                console.log("yay");
-            }
-        })*/
     }
 
     render () {

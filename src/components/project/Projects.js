@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import Project from './Project';
-import {base} from '../../base';
+import { base } from '../../base';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-export default class Projects extends Component {
+class Projects extends Component {
     constructor () {
         super();
         this.state = {
@@ -27,7 +28,7 @@ export default class Projects extends Component {
     componentWillUnmount () {
         base.removeBinding(this.projectsRef);
     }
-    
+
     render() {
         const {projects} = this.state;
         const projectsRender = projects[0] ? projects.map((project, index)=> {
@@ -37,9 +38,17 @@ export default class Projects extends Component {
             <div className="px-5">
                 <p className="text-right my-4 mr-lg-5"><Link to='create_project'> Add Project </Link></p>
                 <div className="mt-3 px-lg-5">
-                    { projectsRender ? projectsRender : (<h5 className="text-center mt-5"> UPS! Seems you have not projects</h5>) }
+                    { projectsRender || (<h5 className="text-center mt-5"> UPS! Seems you have not projects</h5>) }
                 </div>
             </div>
         )
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        uid: state.client.uid
+    }
+}
+
+export default connect(mapStateToProps)(Projects);

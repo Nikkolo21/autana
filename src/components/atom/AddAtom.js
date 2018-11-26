@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import './Atom.css';
 import {base} from '../../base';
+import { connect } from 'react-redux';
+import {openAndCloseModal} from '../../actions';
 
-export default class AddAtom extends Component {
+class AddAtom extends Component {
     constructor () {
         super();
         this.state = {
@@ -29,11 +31,12 @@ export default class AddAtom extends Component {
 
     render() {
         let button = false ? "enabled ": "disabled ";
-        return (    
+        const {closeModal} = this.props;
+        return (
             <div className="addAtomBody">
                 <div className="card basic-form">
                     <small className="text-right pt-3 pr-3 pt-md-5 pr-md-5">
-                        <a style={{color: "red", textDecoration: "none", cursor: "pointer"}} onClick={this.props.closeModal}>Close</a>
+                        <a style={{color: "red", textDecoration: "none", cursor: "pointer"}} onClick={closeModal}>Close</a>
                     </small>
                     <div className="text-center text-white card-header bg-addProject py-2">
                         <h4 className="title">Create Atom</h4>
@@ -67,3 +70,22 @@ export default class AddAtom extends Component {
         )
     }
 }
+
+const mapDispatchToProps = dispatch => {
+    return {
+        closeModal: () => {
+            dispatch(openAndCloseModal(false));
+        }
+    };
+}
+
+const mapStateToProps = state => {
+  return {
+    isOpen: state.atoms.modal
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AddAtom);

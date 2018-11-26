@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import {base} from '../../base';
+import { base } from '../../base';
 
 export default class Project extends Component {
     constructor () {
@@ -28,15 +27,8 @@ export default class Project extends Component {
           <Link className="projectTitle" to={{ pathname: `my_projects/${key}`}}>
             <h4>{name}</h4>
           </Link>
-          <i className="fas fa-times deleteX" title="delete project" onClick={this.onDeleteClick}></i>         
+          <i className="fas fa-times deleteX" title="delete project" onClick={this.onDeleteClick}></i>
         </div>
     )
   }
-}
-
-Project.propType = {
-  id: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  users: PropTypes.string.isRequired
 }

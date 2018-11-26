@@ -3,9 +3,11 @@ import { base } from '../../base';
 import { Redirect, Link } from 'react-router-dom';
 import './Project.css';
 import SearchCountry from '../SearchCountry';
+import { connect } from 'react-redux';
+
 const uuidv4 = require('uuid/v4'); //random ID
 
-export default class AddProject extends Component {
+class AddProject extends Component {
   constructor () {
     super();
     this.state = {
@@ -93,7 +95,7 @@ export default class AddProject extends Component {
                       tagColors.map((color, index) => {
                         let active = color === tagColor;
                         return (<div key={index} onClick={this.selectColor.bind(this, color)} className={`mr-1 mb-1 tagColor ${active ? "tagActive":""}`} style={{backgroundColor: color}}>
-                          { active ? (<i className="fa fa-check" style={{color: "white"}}></i>) : "" }
+                          { active && <i className="fa fa-check" style={{color: "white"}}/> }
                         </div>)
                       })
                     }
@@ -111,3 +113,11 @@ export default class AddProject extends Component {
     )
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    uid: state.client.uid
+  }
+}
+
+export default connect(mapStateToProps)(AddProject);
