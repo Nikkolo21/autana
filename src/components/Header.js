@@ -11,6 +11,8 @@ import Modal from './util/Modal';
 
 import {openAndCloseModal} from '../actions'
 import './header.css';
+import { bindActionCreators } from '../../../../.cache/typescript/3.0/node_modules/redux';
+import { logout } from '../actions/auth/loginAction';
 
 const wc = require('which-country'); //Geo reverse country
 
@@ -25,7 +27,7 @@ class Header extends Component {
   
   signOut = () => {
     auth.signOut().then(() => {
-      console.log("getOut");
+      this.props.logout();
     });
   }
   
@@ -35,8 +37,8 @@ class Header extends Component {
       <div className="bg-white mb-3 py-4 px-xs-2 px-sm-5">
         <div className="d-flex justify-content-between">
           <NavLink to={routes.HOME} className="navbar-brand myLogo align-self-center"></NavLink>
-          { this.props.loggedIn &&
-            ( this.props.loggedIn.logged ?
+          { !this.props.isFetching && 
+            ( this.props.loggedIn ?
               ( <div className="d-flex pt-3">
                   <button className="btn btn-sm btn-info align-self-center mb-2 mr-2" onClick={_openModal} style={{backgroundColor: "#4183FF"}}>Create Atom</button>
                   <NavLink activeClassName="navbarActive" to={routes.PROJECTS} className="nav-link">Projects</NavLink>
@@ -61,18 +63,18 @@ class Header extends Component {
   }
 };
 
-const mapStateToProps = state => {
-  return {
-    modalIsOpen: state.atoms.modal
-  }
-}
+const mapStateToProps = state => ({
+  modalIsOpen: state.atoms.modal,
+  uuid: state.auth.uuid,
+  loggedIn: state.auth.isAuth,
+  isFetching: state.client.isFetching
+})
 
-const mapDispatchToProps = dispatch => {
-  return {
-      _openModal: () => {
-          dispatch(openAndCloseModal(true));
-      }
-  };
-}
+const mapDispatchToProps = dispatch => (
+  bindActionCreators({
+    _openModal: openAndCloseModal,
+    logout
+  }, dispatch)
+)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { base } from '../../base';
 import { Redirect, Link } from 'react-router-dom';
-import './Project.css';
-import SearchCountry from '../SearchCountry';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { base } from '../../base';
+import { isFetching } from '../../actions/projects/addProject';
+import SearchCountry from '../SearchCountry';
+import './Project.css';
 
 const uuidv4 = require('uuid/v4'); //random ID
 
@@ -20,6 +22,7 @@ class AddProject extends Component {
 
   addProject = () => {
     if (this.validForm()) {
+      this.props._isFetching();
       const PROJECT_ID = uuidv4();
       let {name, tag, description, tagColor, selectedCountries} = this.state;
       this.ref = base.post(`projects/${PROJECT_ID}`, {
@@ -29,6 +32,7 @@ class AddProject extends Component {
           this.ref = base.post(`users/${this.props.uid}/projects/${PROJECT_ID}`, {
             data: {name: name, tagColor: tagColor}
           }).then(err => {
+            this.props._isFetching();
             if (!err) {
               this.setState({toProjects: true});
             }
@@ -114,10 +118,14 @@ class AddProject extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    uid: state.client.uid
-  }
-}
+const mapStateToProps = state => ({
+  uid: state.auth.uid
+})
 
-export default connect(mapStateToProps)(AddProject);
+const mapDispatchToProps = dispatch => (
+  bindActionCreators({
+    _isFetching: isFetching
+  }, dispatch)
+)
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddProject);

@@ -13,7 +13,7 @@ export default class Register extends Component {
     };
   }  
   register = () => {
-    if (this.validForm) {
+    if (this.validForm()) {
       auth.createUserWithEmailAndPassword(this.state.email, this.state.password).then(user => {
         this.setState({toHome: true});
       }).catch((e)=> {

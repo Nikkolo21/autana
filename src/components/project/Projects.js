@@ -3,6 +3,8 @@ import Project from './Project';
 import { base } from '../../base';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { isFetching } from '../../actions/projects/projects';
+import { bindActionCreators } from 'redux';
 
 class Projects extends Component {
     constructor () {
@@ -13,6 +15,7 @@ class Projects extends Component {
     }
 
     componentWillMount () {
+        this.props._isFetching();
         this.projectsRef = base.syncState(`users/${this.props.uid}/projects`, {
             context: this,
             state: 'projects',
@@ -21,6 +24,7 @@ class Projects extends Component {
                 //limitToFirst: 4
             },
             then(){
+                this.props._isFetching();
             }
         });
     }
@@ -38,17 +42,25 @@ class Projects extends Component {
             <div className="px-5">
                 <p className="text-right my-4 mr-lg-5"><Link to='create_project'> Add Project </Link></p>
                 <div className="mt-3 px-lg-5">
-                    { projectsRender || (<h5 className="text-center mt-5"> UPS! Seems you have not projects</h5>) }
+                    { !this.props.loading ? 
+                        (projectsRender || (<h5 className="text-center mt-5"> UPS! Seems you have not projects</h5>)):
+                        ("loading")
+                    }
                 </div>
             </div>
         )
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        uid: state.client.uid
-    }
-}
+const mapDispatchToProps = dispatch => (
+    bindActionCreators({
+        _isFetching: isFetching
+    }, dispatch)
+)
 
-export default connect(mapStateToProps)(Projects);
+const mapStateToProps = state => ({
+    uid: state.auth.uid,
+    loading: state.projects.isFetching
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Projects);

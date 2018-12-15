@@ -1,10 +1,14 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import { auth } from '../../base';
 import * as routes from '../../constants/routes';
 import './Auth.css';
+import { connect } from 'react-redux';
+import { isFetching } from '../../actions/auth/loginAction';
+import { bindActionCreators } from '../../../../../.cache/typescript/3.0/node_modules/redux';
+import { validateEmail, validatePassword } from '../../helpers';
 
-export default class Login extends Component {
+class Login extends Component {
     constructor () {
       super();
       this.state = {
@@ -16,24 +20,30 @@ export default class Login extends Component {
         this.setState({[e.target.name]: e.target.value});
     }
 
-    login = (evn) => {
-        evn.preventDefault();
-        const { email, password } = this.state;
-        if (email && password) {
-            auth.signInWithEmailAndPassword(email, password).then(user => {
+    validForm = () => {
+        const {email, password} = this.state;
+        return validateEmail(email) && validatePassword(password);
+    }
+
+    login = (event) => {
+        this.props.isFetching(true);
+        event.preventDefault();
+        if (this.validForm()) {
+            auth.signInWithEmailAndPassword(this.state.email, this.state.password).then(user => {
+                this.props.isFetching(false);
                 this.setState({toHome: true});
-            }).catch((e)=> {
-                console.log(e.message);
+            }).catch((error)=> {
+                console.log(error.message);
+                this.props.isFetching(false);
             });
         }
     }
 
     render() {
-        const  { toHome, email, password } = this.state;
-        if (toHome) {
+        if (this.state.toHome) {
             return <Redirect to='/home'/>
         }
-        let button = email && password ? "enabled ": "disabled ";
+        let button = this.validForm() && !this.props.loading ? "enabled ": "disabled ";
         return (
             <div className="container my-5 authContainer">
                 <form className="card basic-form mx-2" onSubmit={this.login}>
@@ -65,3 +75,15 @@ export default class Login extends Component {
         )
     }
 }
+
+const mapStateToProps = state => ({
+    loading: state.auth.isFetching
+})
+
+const mapDispatchToProps = dispatch => (
+    bindActionCreators({
+        isFetching
+    }, dispatch)
+)
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

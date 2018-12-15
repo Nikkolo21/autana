@@ -6,3 +6,13 @@
     margin: 0 auto;
     width: 304px;
 }
+
+.enabled {
+    background-color: rgba(38, 95, 216, 0.9) !important;
+    color: white !important;
+}
+
+.disabled {
+    background-color: rgba(38, 95, 216, 0.3) !important;
+    color: white !important;
+}

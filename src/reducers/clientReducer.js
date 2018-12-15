@@ -1,9 +1,11 @@
-import {ADD_CLIENT_UID} from '../constants/action-types';
+import { HEADER_IS_FETCHING } from '../constants/action-types';
 
-export default function clientReducer(state = {}, action) {
+export default function clientReducer(state = {
+  isFetching: false
+}, action) {
     switch (action.type) {
-      case ADD_CLIENT_UID:
-        return {...state, uid: action.payload};
+      case HEADER_IS_FETCHING:
+        return {...state, isFetching: action.isFetching};
       default:
         return state;
     }
