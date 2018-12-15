@@ -8,7 +8,7 @@ import authReducer from './authReducer';
 
 const reducer = {
     atoms: atomsReducer,
-    add_projects: addProjectReducer,
+    add_project: addProjectReducer,
     client: clientReducer,
     auth: authReducer,
     projects: projectsReducer,

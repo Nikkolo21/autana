@@ -12,7 +12,6 @@ class Login extends Component {
     constructor () {
       super();
       this.state = {
-          toHome: false,
       }
     }
 
@@ -31,7 +30,6 @@ class Login extends Component {
         if (this.validForm()) {
             auth.signInWithEmailAndPassword(this.state.email, this.state.password).then(user => {
                 this.props.isFetching(false);
-                this.setState({toHome: true});
             }).catch((error)=> {
                 console.log(error.message);
                 this.props.isFetching(false);
@@ -40,7 +38,7 @@ class Login extends Component {
     }
 
     render() {
-        if (this.state.toHome) {
+        if (this.props.isAuth) {
             return <Redirect to='/home'/>
         }
         let button = this.validForm() && !this.props.loading ? "enabled ": "disabled ";
@@ -77,7 +75,8 @@ class Login extends Component {
 }
 
 const mapStateToProps = state => ({
-    loading: state.auth.isFetching
+    loading: state.auth.isFetching,
+    isAuth: state.auth.isAuth
 })
 
 const mapDispatchToProps = dispatch => (

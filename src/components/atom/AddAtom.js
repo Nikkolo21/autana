@@ -78,11 +78,10 @@ const mapDispatchToProps = dispatch => (
     }, dispatch)
 )
 
-const mapStateToProps = state => {
-  return {
-    isOpen: state.atoms.modal
-  };
-};
+const mapStateToProps = state => ({
+    isOpen: state.atoms.modal,
+    uid: state.auth.uid
+})
 
 export default connect(
   mapStateToProps,

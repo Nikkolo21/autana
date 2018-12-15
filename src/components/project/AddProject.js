@@ -64,7 +64,8 @@ class AddProject extends Component {
   render() {
     let {tagColor, tagColors} = this.state;
     let searchCountry = <SearchCountry method={this.getSelectedCountries} searchLabel="Where are you looking for nomads?"/>
-    let button = this.validForm() ? "enabled ": "disabled ";
+    let button = this.validForm() && !this.props.loading ?
+      "enabled ": "disabled ";
     
     if (this.state.toProjects) {
       return <Redirect to='/my_projects' />
@@ -119,7 +120,8 @@ class AddProject extends Component {
 }
 
 const mapStateToProps = state => ({
-  uid: state.auth.uid
+  uid: state.auth.uid,
+  loading: state.add_project.isFetching
 })
 
 const mapDispatchToProps = dispatch => (
