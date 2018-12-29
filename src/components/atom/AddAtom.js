@@ -1,43 +1,43 @@
 import React, { Component } from 'react';
 import './Atom.css';
-import {base} from '../../base';
+import { base } from '../../base';
 import { connect } from 'react-redux';
-import {openAndCloseModal} from '../../actions';
-import { bindActionCreators } from '../../../../../.cache/typescript/3.0/node_modules/redux';
+import { openAndCloseModal } from '../../actions';
+import { bindActionCreators } from 'redux';
 
 class AddAtom extends Component {
-    constructor () {
+    constructor() {
         super();
         this.state = {
             projects: []
         };
     }
 
-    componentWillMount () {
+    componentWillMount() {
         this.projectsRef = base.listenTo(`users/${this.props.uid}/projects`, {
             context: this,
             asArray: true,
             queries: {
                 //limitToFirst: 4
             },
-            then(projects){
-                this.setState({projects});
+            then(projects) {
+                this.setState({ projects });
             }
         });
     }
 
-    componentWillUnmount () {
+    componentWillUnmount() {
         base.removeBinding(this.projectsRef);
     }
 
     render() {
-        let button = false ? "enabled ": "disabled ";
-        const {_closeModal} = this.props;
+        let button = false ? "enabled " : "disabled ";
+        const { _closeModal } = this.props;
         return (
             <div className="addAtomBody">
                 <div className="card basic-form">
                     <small className="text-right pt-3 pr-3 pt-md-5 pr-md-5">
-                        <a style={{color: "red", textDecoration: "none", cursor: "pointer"}} onClick={_closeModal}>Close</a>
+                        <a style={{ color: "red", textDecoration: "none", cursor: "pointer" }} onClick={_closeModal}>Close</a>
                     </small>
                     <div className="text-center text-white card-header bg-addProject py-2">
                         <h4 className="title">Create Atom</h4>
@@ -46,24 +46,24 @@ class AddAtom extends Component {
                         <div className="px-md-5">
                             <div className="form-group">
                                 <label>Name*</label>
-                                <input type="text" className="form-control px-4 py-2" name="name" id="name" onChange={this.handleEvent}/>
+                                <input type="text" className="form-control px-4 py-2" name="name" id="name" onChange={this.handleEvent} />
                             </div>
                             <div className="form-group">
                                 <label>Description*</label>
-                                <textarea type="text" className="form-control" name="description" id="description" onChange={this.handleEvent}/>
+                                <textarea type="text" className="form-control" name="description" id="description" onChange={this.handleEvent} />
                             </div>
                             <div className="form-group">
-                                <label>Select project*</label><br/>
+                                <label>Select project*</label><br />
                                 {
-                                    this.state.projects.map((project, index)=> {
-                                        return (<small className="py-2 px-3 mb-1 mr-1 selectProject" key={index} style={{backgroundColor: project.tagColor}}>{project.name}</small>)
+                                    this.state.projects.map((project, index) => {
+                                        return (<small className="py-2 px-3 mb-1 mr-1 selectProject" key={index} style={{ backgroundColor: project.tagColor }}>{project.name}</small>)
                                     })
                                 }
                             </div>
                         </div>
                         <div className="text-center">
                             <button type="submit" className={`${button} btn btn-light btn-lg px-4`}
-                            onClick={this.addProject}>Create</button>
+                                onClick={this.addProject}>Create</button>
                         </div>
                     </div>
                 </div>
@@ -84,6 +84,6 @@ const mapStateToProps = state => ({
 })
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(AddAtom);

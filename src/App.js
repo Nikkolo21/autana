@@ -10,13 +10,13 @@ import Header from './components/Header';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import PublicHomePage from './components/PublicHomePage';
-import {addClientUID, isFetching} from './actions';
+import { addClientUID, isFetching } from './actions';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import * as routes from './constants/routes';
-import { bindActionCreators } from '../../../.cache/typescript/3.0/node_modules/redux';
+import { bindActionCreators } from 'redux';
 
 class App extends Component {
-  componentDidMount () {
+  componentDidMount() {
     this.props.isFetching(true);
     auth.onAuthStateChanged((user) => {
       this.props.isFetching(false);
@@ -25,26 +25,26 @@ class App extends Component {
   }
 
   redirectOrNot = (conditional, component, redirectPath) => {
-    return conditional ? 
-      (component):(<Redirect to={redirectPath}/>)
+    return conditional ?
+      (component) : (<Redirect to={redirectPath} />)
   }
-  
+
   render() {
     const RESP_LOGGED = this.props.isAuth;
     return (
       <Switch>
         <div>
-          <Header/>
-          <Route exact path={routes.HOME} component={PublicHomePage}/>
-          <Route exact path={routes.LOGIN} component={Login}/>
-          <Route exact path={routes.REGISTER} component={Register}/>
-          <Route exact path={routes.ATOMS} component={Atoms}/>
-          <Route exact path={routes.SHOW_PROJECT} component={ShowProject}/>
-          <Route exact path={routes.ADD_PROJECT} component={AddProject}/>
+          <Header />
+          <Route exact path={routes.HOME} component={PublicHomePage} />
+          <Route exact path={routes.LOGIN} component={Login} />
+          <Route exact path={routes.REGISTER} component={Register} />
+          <Route exact path={routes.ATOMS} component={Atoms} />
+          <Route exact path={routes.SHOW_PROJECT} component={ShowProject} />
+          <Route exact path={routes.ADD_PROJECT} component={AddProject} />
 
           <Route exact path={routes.PROJECTS} render={() => (
-            this.redirectOrNot(RESP_LOGGED, <Projects/>, '/home') 
-          )}/>
+            this.redirectOrNot(RESP_LOGGED, <Projects />, '/home')
+          )} />
         </div>
       </Switch>
     )
