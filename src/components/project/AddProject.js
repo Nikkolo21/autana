@@ -20,13 +20,13 @@ class AddProject extends Component {
     }
   }
 
-  addProject = () => {
-    if (this.validForm()) {
+  _addProject = () => {
+    if (this._validForm()) {
       this.props._isFetching();
       const PROJECT_ID = uuidv4();
-      let { name, tag, description, tagColor, selectedCountries } = this.state;
+      let { name, tag, shortDescription, tagColor, selectedCountries } = this.state;
       this.ref = base.post(`projects/${PROJECT_ID}`, {
-        data: { name, tag, description, tagColor, countries: selectedCountries, atomsCount: 0 }
+        data: { name, tag, shortDescription, tagColor, countries: selectedCountries, atomsCount: 0 }
       }).then(err => {
         if (!err) {
           this.ref = base.post(`users/${this.props.uid}/projects/${PROJECT_ID}`, {
@@ -43,27 +43,30 @@ class AddProject extends Component {
     }
   }
 
-  handleEvent = (e) => {
+  _handleEvent = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   }
 
-  getSelectedCountries = (countries) => {
+  _getSelectedCountries = (countries) => {
     this.setState({ selectedCountries: countries });
   }
 
-  selectColor = (color) => {
+  _selectColor = (color) => {
     this.setState({ tagColor: color !== this.state.tagColor ? color : "" });
   }
 
-  validForm = () => {
-    let { name, tag, description, tagColor, selectedCountries } = this.state;
-    return name && tag && description && tagColor && selectedCountries[0];
+  _validForm = () => {
+    let { name, tag, shortDescription, tagColor, selectedCountries } = this.state;
+    return name && tag && shortDescription && tagColor && selectedCountries[0];
   }
 
   render() {
-    let { tagColor, tagColors } = this.state;
-    let searchCountry = <SearchCountry method={this.getSelectedCountries} searchLabel="Where are you looking for nomads?" />
-    let button = this.validForm() && !this.props.loading ?
+    let { tagColor } = this.state;
+    let { loading, tagColors } = this.props;
+    let searchCountry =
+      <SearchCountry method={this._getSelectedCountries}
+        searchLabel="Where are you looking for nomads?" />
+    let button = this._validForm() && !loading ?
       "enabled " : "disabled ";
 
     if (this.state.toProjects) {
@@ -82,15 +85,15 @@ class AddProject extends Component {
             <div className="px-md-5">
               <div className="form-group">
                 <label>Name*</label>
-                <input type="text" className="my-form-control p-4" name="name" id="name" onChange={this.handleEvent} />
+                <input type="text" className="my-form-control p-4" name="name" id="name" onChange={this._handleEvent} />
               </div>
               <div className="form-group">
                 <label>Tag*</label>
-                <input type="text" className="my-form-control p-4" name="tag" id="tag" onChange={this.handleEvent} />
+                <input type="text" maxLength="5" className="my-form-control p-4" name="tag" id="tag" onChange={this._handleEvent} />
               </div>
               <div className="form-group">
-                <label>Description*</label>
-                <input type="text" className="my-form-control p-4" name="description" id="description" onChange={this.handleEvent} />
+                <label>Short description*</label>
+                <input type="text" className="my-form-control p-4" name="shortDescription" id="shortDescription" onChange={this._handleEvent} />
               </div>
               <div className="form-group">
                 <label>Tag Color*</label>
@@ -98,7 +101,7 @@ class AddProject extends Component {
                   {
                     tagColors.map((color, index) => {
                       let active = color === tagColor;
-                      return (<div key={index} onClick={this.selectColor.bind(this, color)} className={`mr-1 mb-1 tagColor ${active ? "tagActive" : ""}`} style={{ backgroundColor: color }}>
+                      return (<div key={index} onClick={this._selectColor.bind(this, color)} className={`mr-1 mb-1 tagColor ${active ? "tagActive" : ""}`} style={{ backgroundColor: color }}>
                         {active && <i className="fa fa-check" style={{ color: "white" }} />}
                       </div>)
                     })
@@ -109,7 +112,7 @@ class AddProject extends Component {
             </div>
             <div className="text-center mt-1">
               <button type="submit" className={`${button} btn btn-light btn-lg px-4`}
-                onClick={this.addProject}>Create</button>
+                onClick={this._addProject}>Create</button>
             </div>
           </div>
         </div>
@@ -120,7 +123,8 @@ class AddProject extends Component {
 
 const mapStateToProps = state => ({
   uid: state.auth.uid,
-  loading: state.add_project.isFetching
+  loading: state.add_project.isFetching,
+  tagColors: state.add_project.tagColors
 })
 
 const mapDispatchToProps = dispatch => (

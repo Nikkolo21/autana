@@ -16,7 +16,7 @@ import * as routes from './constants/routes';
 import { bindActionCreators } from 'redux';
 
 class App extends Component {
-  componentDidMount() {
+  componentWillMount() {
     this.props.isFetching(true);
     auth.onAuthStateChanged((user) => {
       this.props.isFetching(false);

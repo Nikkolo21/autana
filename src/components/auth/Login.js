@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import { auth } from '../../base';
 import * as routes from '../../constants/routes';
-import './Auth.css';
 import { connect } from 'react-redux';
 import { isFetching } from '../../actions/auth/loginAction';
 import { bindActionCreators } from 'redux';
 import { validateEmail, validatePassword } from '../../helpers';
+import './Auth.css';
 
 class Login extends Component {
     constructor() {
@@ -24,11 +24,12 @@ class Login extends Component {
         return validateEmail(email) && validatePassword(password);
     }
 
-    login = (event) => {
+    _login = (event) => {
         this.props.isFetching(true);
         event.preventDefault();
         if (this.validForm()) {
             auth.signInWithEmailAndPassword(this.state.email, this.state.password).then(user => {
+                console.log(user)
                 this.props.isFetching(false);
             }).catch((error) => {
                 console.log(error.message);
@@ -41,10 +42,11 @@ class Login extends Component {
         if (this.props.isAuth) {
             return <Redirect to='/home' />
         }
-        let button = this.validForm() && !this.props.loading ? "enabled " : "disabled ";
+        let button = this.validForm() && !this.props.loading ?
+            "enabled " : "disabled ";
         return (
             <div className="container my-5 authContainer">
-                <form className="card basic-form mx-2" onSubmit={this.login}>
+                <form className="card basic-form mx-2" onSubmit={this._login}>
                     <div className="text-right pt-5 pr-5">
                         <Link to='/home'> Go back</Link>
                     </div>
@@ -63,7 +65,9 @@ class Login extends Component {
                             </div>
                         </div>
                         <div className="text-center">
-                            <button type="submit" className={`${button} btn btn-light btn-lg px-4`}>Login
+                            <button style={{ backgroundColor: "#6b3faf" }}
+                                type="submit" className={`${button} btn btn-login btn-light btn-lg px-4`}>
+                                Login
                             </button>
                             <p className="mt-4"> Do not you have an account? <Link to={routes.REGISTER}>Register</Link> </p>
                         </div>

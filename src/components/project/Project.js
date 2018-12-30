@@ -1,18 +1,11 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { base } from '../../base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 class Project extends Component {
-  constructor() {
-    super();
-    this.state = {
-      showInfo: false
-    }
-  }
-
-  onDeleteClick = () => {
+  _onDeleteClick = () => {
     base.remove(`projects/${this.props.project.key}`, () => {
     }).then(() => {
       base.remove(`users/${this.props.uid}/projects/${this.props.project.key}`, error => {
@@ -29,7 +22,7 @@ class Project extends Component {
         <Link className="projectTitle" to={{ pathname: `my_projects/${key}` }}>
           <h4>{name}</h4>
         </Link>
-        <i className="fas fa-times deleteX" title="delete project" onClick={this.onDeleteClick}></i>
+        <i className="fas fa-times deleteX" title="delete project" onClick={this._onDeleteClick}></i>
       </div>
     )
   }

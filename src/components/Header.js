@@ -13,22 +13,17 @@ import { openAndCloseModal } from '../actions'
 import './header.css';
 import { bindActionCreators } from 'redux';
 import { logout } from '../actions/auth/loginAction';
-
-const wc = require('which-country'); //Geo reverse country
+import { _getLocation } from '../helpers/geo';
 
 class Header extends Component {
-  showPosition = (position) => {
-    console.log(wc([position.coords.longitude, position.coords.latitude]));
-  } //Geolocalization
-
-  getLocation = () => {
-    navigator.geolocation ? navigator.geolocation.getCurrentPosition(this.showPosition) : console.log("Geolocation is not supported by this browser.");
-  }
-
-  signOut = () => {
+  _signOut = () => {
     auth.signOut().then(() => {
       this.props.logout();
     });
+  }
+
+  componentWillMount() {
+    _getLocation();
   }
 
   render() {
@@ -44,7 +39,7 @@ class Header extends Component {
                 <NavLink activeClassName="navbarActive" to={routes.PROJECTS} className="nav-link">Projects</NavLink>
                 <NavLink activeClassName="navbarActive" to={routes.ATOMS} className="nav-link">Atoms</NavLink>
                 <NavLink activeClassName="navbarActive" to={routes.PROFILE} className="nav-link">Profile</NavLink>
-                <a style={{ "cursor": "pointer" }} className="nav-link signOut" onClick={this.signOut}>Logout</a>
+                <a style={{ "cursor": "pointer" }} className="nav-link signOut" onClick={this._signOut}>Logout</a>
               </div>) :
               (<div className="d-flex">
                 <NavLink activeClassName="navbarActive" to={routes.LOGIN} className="mt-3 nav-link">Login</NavLink>
