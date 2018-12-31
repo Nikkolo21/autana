@@ -8,3 +8,5 @@ export const PROJECTS = '/my_projects';
 export const ATOMS = '/my_atoms';
 export const SHOW_PROJECT = '/my_projects/:id';
 export const ADD_PROJECT = '/create_project';
+
+export const LETS_GO = '/lets_go';

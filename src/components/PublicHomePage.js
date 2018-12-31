@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-export default class PublicHomePage extends Component {
+class PublicHomePage extends Component {
   render() {
     return (
       <div>
@@ -9,3 +11,15 @@ export default class PublicHomePage extends Component {
     )
   }
 }
+
+const mapStateToProps = state => (
+  state
+)
+
+const mapDispatchToProps = dispatch => (
+  bindActionCreators({
+
+  }, dispatch)
+)
+
+export default connect(mapStateToProps, mapDispatchToProps)(PublicHomePage);

@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { BrowserRouter as Switch, Route, Redirect } from 'react-router-dom';
-import { auth } from './base';
+import { Route, Redirect, BrowserRouter as Switch } from 'react-router-dom';
+import { auth, base } from './base';
 import Projects from './components/project/Projects';
 import Atoms from './components/atom/Atoms';
 import ShowProject from './components/project/ShowProject';
@@ -10,42 +10,72 @@ import Header from './components/Header';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import PublicHomePage from './components/PublicHomePage';
-import { addClientUID, isFetching } from './actions';
+import LetsGo from './components/LetsGo';
+import { addClientUID, isFetching, emailVerified, choosedUserType } from './actions';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import * as routes from './constants/routes';
 import { bindActionCreators } from 'redux';
+import { redirect } from './actions/redirect';
 
 class App extends Component {
   componentWillMount() {
-    this.props.isFetching(true);
+    const { _isFetching, _emailVerified, _addClientUID, _redirect, _choosedUserType } = this.props;
+    _isFetching(true);
     auth.onAuthStateChanged((user) => {
-      this.props.isFetching(false);
-      user && this.props._addClientUID(user.uid);
+      if (user && user.uid) {
+        _emailVerified(user.emailVerified);
+        _addClientUID(user.uid);
+        this.projectsRef = base.listenTo(`users/${user.uid}/profileData/chooseUserType`, { //enpoint to know if choosed the userType
+          context: this,
+          asArray: false,
+          then(choosed) {
+            _choosedUserType(choosed);
+            !choosed && _redirect(routes.LETS_GO);
+            _isFetching(false);
+          }
+        });
+      }
+      else {
+        _isFetching(false);
+      }
     })
   }
 
-  redirectOrNot = (conditional, component, redirectPath) => {
-    return conditional ?
-      (component) : (<Redirect to={redirectPath} />)
+  redirectOrNot = (component) => {
+    const { isFetching, isAuth } = this.props;
+    return !isFetching && isAuth ?
+      component : <Redirect to={"/home"} />
   }
 
   render() {
-    const RESP_LOGGED = this.props.isAuth;
+    const { redirect: { path } } = this.props;
     return (
       <Switch>
-        <div>
+        <Fragment>
+          {
+            //global redirect
+            redirect && path && <Redirect to={path} />
+          }
           <Header />
           <Route exact path={routes.HOME} component={PublicHomePage} />
           <Route exact path={routes.LOGIN} component={Login} />
           <Route exact path={routes.REGISTER} component={Register} />
-          <Route exact path={routes.ATOMS} component={Atoms} />
-          <Route exact path={routes.SHOW_PROJECT} component={ShowProject} />
-          <Route exact path={routes.ADD_PROJECT} component={AddProject} />
 
-          <Route exact path={routes.PROJECTS} render={() => (
-            this.redirectOrNot(RESP_LOGGED, <Projects />, '/home')
+          <Route exact path={routes.LETS_GO} component={LetsGo} />
+
+          <Route exact path={routes.ADD_PROJECT} render={() => (
+            this.redirectOrNot(<AddProject />)
           )} />
-        </div>
+          <Route exact path={routes.SHOW_PROJECT} render={() => (
+            this.redirectOrNot(<ShowProject />)
+          )} />
+          <Route exact path={routes.ATOMS} render={() => (
+            this.redirectOrNot(<Atoms />)
+          )} />
+          <Route exact path={routes.PROJECTS} render={() => (
+            this.redirectOrNot(<Projects />)
+          )} />
+        </Fragment>
       </Switch>
     )
   }
@@ -54,14 +84,20 @@ class App extends Component {
 const mapStateToProps = state => {
   return {
     uid: state.auth.uid,
-    isAuth: state.auth.isAuth
+    isAuth: state.auth.isAuth,
+    emailVerified: state.auth.emailVerified,
+    isFetching: state.auth.isFetching,
+    redirect: state.redirect
   }
 }
 
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
     _addClientUID: addClientUID,
-    isFetching
+    _emailVerified: emailVerified,
+    _isFetching: isFetching,
+    _redirect: redirect,
+    _choosedUserType: choosedUserType
   }, dispatch)
 )
 

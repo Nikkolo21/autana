@@ -6,6 +6,8 @@ import './Auth.css';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { isFetching } from '../../actions/auth/registerAction';
+import { emailVerified } from '../../actions';
+import { redirect } from '../../actions/redirect';
 //const Recaptcha = require('react-recaptcha');
 
 class Register extends Component {
@@ -16,26 +18,32 @@ class Register extends Component {
     }
   }
   _register = (event) => {
+    const { _emailVerified, _isFetching, _redirect } = this.props;
+    const { email, password } = this.state;
     event.preventDefault();
+
     if (this._validForm()) {
-      this.props._isFetching(true);
-      auth.createUserWithEmailAndPassword(this.state.email, this.state.password).then(user => {
+      _isFetching(true);
+      auth.createUserWithEmailAndPassword(email, password).then(user => {
         this.ref = base.post(`users/${user.user.uid}/profileData`, {
           data: { chooseUserType: false } //N = nomad, E = employer, A = admin
         }).then(err => {
-          this.props._isFetching(false);
           if (!err) {
-            this.setState({ toHome: true });
+            auth.onAuthStateChanged((user) => {
+              _emailVerified(false); _isFetching(false); _redirect("/lets_go");
+              this.setState({ toHome: true });
+              user.sendEmailVerification()
+            })
           }
         })
       }).catch((e) => {
-        this.props._isFetching(false);
+        _isFetching(false);
         console.log(e.message);
       });
     }
   }
 
-  //auth.sendPasswordResetEmail
+  //auth.sendPasswordResetEmail(email, {})
   //auth.updateCurrentUser
   //auth.useDeviceLanguage
   //auth.
@@ -101,7 +109,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
-    _isFetching: isFetching
+    _isFetching: isFetching,
+    _emailVerified: emailVerified,
+    _redirect: redirect
   }, dispatch)
 )
 

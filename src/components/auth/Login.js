@@ -29,7 +29,6 @@ class Login extends Component {
         event.preventDefault();
         if (this.validForm()) {
             auth.signInWithEmailAndPassword(this.state.email, this.state.password).then(user => {
-                console.log(user)
                 this.props.isFetching(false);
             }).catch((error) => {
                 console.log(error.message);
