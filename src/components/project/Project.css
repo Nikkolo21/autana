@@ -1,0 +1,122 @@
+/* Add group */
+body {
+    background-color: rgba(10, 10, 10, 0.08) !important;
+}
+
+.title {
+    color: #358bdc;
+}
+
+.basic-form {
+    background-color: white;
+}
+
+.card {
+    border: 1px solid rgba(0,0,0,.1);
+}
+
+.my-form-control {
+    display: block;
+    width: 100%;
+    height: calc(2.25rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(10,10,10,0.2);
+    border-radius: .25rem;
+    -webkit-transition: border-color .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+    transition: border-color .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+    -o-transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+}
+
+.my-form-control:focus{
+    color: #495057;
+    background-color: #fff;
+    outline: 0;
+    border-color: rgb(88, 86, 86);
+    box-shadow: 0 0 0 0.1rem rgba(54, 45, 48, 0.25);
+}
+
+.bg-addProject {
+    background-color:  white !important;
+    border-bottom: none !important;
+}
+
+.selectedCountry {
+    font-size: 12px;
+    color: black;
+    background-color: rgba(1, 126, 255, 0.05);
+}
+
+.selectedCountryImg {
+    height: 3rem;
+    width: 3rem;
+}
+.queryCountryImg {
+    height: 1rem;
+    width: 1rem;
+}
+
+.holo {
+    float: left;
+    border-radius: 6px;
+    color: black;
+    position: absolute;
+    font-size: 12px;
+    line-height: 20px;
+    border-top: none;
+    background-color: white;
+    width: 50%;
+    z-index: 100;
+}
+.noMarginBot {
+    margin-bottom: 0px !important;
+}
+
+.click {
+    cursor: pointer;
+}
+
+.addProjectContainer {
+    width: 60rem !important;
+    max-width: 90vw !important;
+
+}
+
+.projectTitle {
+    text-decoration: none !important; 
+    color: rgba(10,10,10,0.7);
+}
+
+.tagColor {
+    width: 50px;
+    height: 30px; 
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+    transition: .1s;
+}
+
+.tagActive {
+    width: 55px;
+    height: 32px;
+    transition: .1s;
+    border-radius: 0px;
+    display: flex;
+    justify-content: center; /* align horizontal */
+    align-items: center; 
+}
+
+.deleteX {
+    right: 20px;
+    top: 20px;
+    font-size: 20px;
+    color: pink; 
+    cursor: pointer;
+    position: absolute;
+}

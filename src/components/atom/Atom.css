@@ -1,0 +1,17 @@
+.addAtomBody {
+    height: auto;
+    width: 80vw;
+}
+
+.selectProject {
+    border-radius: 5px; 
+    color: white; 
+    display: inline-block;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 768px) {
+    .addAtomBody {
+        width: 95vw;
+    }
+}

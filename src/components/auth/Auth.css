@@ -1,0 +1,28 @@
+.authContainer {
+    width: 40rem !important;
+    max-width: 90vw !important;
+}
+.myRecaptcha {
+    margin: 0 auto;
+    width: 304px;
+}
+
+.enabled {
+    background-color: rgba(68, 71, 152, 0.9) !important;
+    color: white !important;
+}
+
+.disabled {
+    background-color: rgba(68, 71, 152, 0.3) !important;
+    color: white !important;
+}
+
+.enabledR {
+    background-color: rgba(255, 33, 103, 0.9) !important;
+    color: white !important;
+}
+
+.disabledR {
+    background-color: rgba(255, 33, 103, 0.3) !important;
+    color: white !important;
+}

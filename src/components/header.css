@@ -1,0 +1,29 @@
+.navbarActive {
+    border-bottom: solid 2px #414141;
+}
+
+.myNavbar {
+    position: fixed !important;
+    width: 100%;
+    z-index: 10;
+}
+
+.nav-link{
+    color: #414141 !important;
+    padding: 0.5rem 0.5rem !important;
+}
+
+.myLogo {
+    width: 60px;
+    height: 60px;
+    border-radius: 5px;
+    background-color: #12e6c8;
+}
+
+.myToggle {
+    border-color: #12e6c8 !important;
+}
+
+.signOut {
+    color:#bf4040 !important;
+}
