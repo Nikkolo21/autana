@@ -26,7 +26,7 @@ class Register extends Component {
       _isFetching(true);
       auth.createUserWithEmailAndPassword(email, password).then(user => {
         this.ref = base.post(`users/${user.user.uid}/profileData`, {
-          data: { chooseUserType: false } //N = nomad, E = employer, A = admin
+          data: { choosecUserType: false } //N = nomad, E = employer, A = admin
         }).then(err => {
           if (!err) {
             auth.onAuthStateChanged((user) => {

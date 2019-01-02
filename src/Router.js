@@ -1,24 +1,25 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Route, BrowserRouter as Switch } from 'react-router-dom';
+import { Route, BrowserRouter as Router } from 'react-router-dom';
+
 import { auth, base } from './base';
-import Projects from './components/project/Projects';
-import Atoms from './components/atom/Atoms';
-import ShowProject from './components/project/ShowProject';
-import AddProject from './components/project/AddProject';
+import * as routes from './constants/routes';
+
 import Header from './components/Header';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import PublicHomePage from './components/PublicHomePage';
-import Board from './components/user/Board';
 import LetsGo from './components/LetsGo';
+import HunterRoutes from './components/router/HunterRoutes';
+import NomadRoutes from './components/router/NomadRoutes';
+
 import { addClientUID, isFetching, emailVerified, choosedUserType } from './actions';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import * as routes from './constants/routes';
-import { bindActionCreators } from 'redux';
 import { redirect } from './actions/redirect';
 
-class Router extends Component {
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+class Routes extends Component {
   componentWillMount() {
     const { _isFetching, _emailVerified, _addClientUID, _redirect, _choosedUserType } = this.props;
     _isFetching(true);
@@ -26,12 +27,12 @@ class Router extends Component {
       if (user && user.uid) {
         _emailVerified(user.emailVerified);
         _addClientUID(user.uid);
-        this.projectsRef = base.listenTo(`users/${user.uid}/profileData/chooseUserType`, { //enpoint to know if choosed the userType
+        this.projectsRef = base.listenTo(`users/${user.uid}/profileData`, { //enpoint to know if choosed the userType
           context: this,
           asArray: false,
-          then(choosed) {
-            _choosedUserType(choosed);
-            choosed ? _redirect(routes.BOARD) : _redirect(routes.LETS_GO);
+          then(data) {
+            _choosedUserType(data);
+            !data.choosedUserType && _redirect(routes.LETS_GO);
             _isFetching(false);
           }
         });
@@ -45,41 +46,39 @@ class Router extends Component {
   }
 
   render() {
-    const { children } = this.props;
+    const { isAuth, children, choosedUserType, userType } = this.props;
     return (
-      <Switch>
-        <Fragment>
+      <Router>
+        <div>
+          {children}
           <Header />
           <Route exact path={routes.HOME} component={PublicHomePage} />
           <Route exact path={routes.LOGIN} component={Login} />
           <Route exact path={routes.REGISTER} component={Register} />
-
-          <Route exact path={routes.LETS_GO} component={LetsGo} />
           {
-            this.props.isAuth &&
-            <Fragment>
-              <Route exact path={routes.BOARD} component={Board} />
-              <Route exact path={routes.PROJECTS} component={Projects} />
-              <Route exact path={routes.ADD_PROJECT} component={AddProject} />
-              <Route exact path={routes.SHOW_PROJECT} component={ShowProject} />
-              <Route exact path={routes.ATOMS} component={Atoms} />
-            </Fragment>
+            !choosedUserType &&
+            <Route exact path={routes.LETS_GO} component={LetsGo} />
           }
-          {children}
-        </Fragment>
-      </Switch>
+          {
+            isAuth && choosedUserType && (
+              userType === "hunter" ? <HunterRoutes /> :
+                <NomadRoutes />
+            )
+          }
+        </div>
+      </Router>
     )
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    uid: state.auth.uid,
-    isAuth: state.auth.isAuth,
-    emailVerified: state.auth.emailVerified,
-    isFetching: state.auth.isFetching,
-  }
-}
+const mapStateToProps = state => ({
+  choosedUserType: state.auth.choosedUserType,
+  emailVerified: state.auth.emailVerified,
+  isAuth: state.auth.isAuth,
+  isFetching: state.auth.isFetching,
+  uid: state.auth.uid,
+  userType: state.auth.userType
+})
 
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
@@ -91,4 +90,4 @@ const mapDispatchToProps = dispatch => (
   }, dispatch)
 )
 
-export default connect(mapStateToProps, mapDispatchToProps)(Router);
+export default connect(mapStateToProps, mapDispatchToProps)(Routes);

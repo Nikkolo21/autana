@@ -2,8 +2,7 @@ import { LOGIN_PAGE_IS_FETCHING, LOGOUT, ADD_CLIENT_UID, REGISTER_PAGE_IS_FETCHI
 
 export default function loginReducer(
     state = {
-        isFetching: false,
-        choosedUserType: false
+        isFetching: false
     }, action) {
     switch (action.type) {
         case LOGIN_PAGE_IS_FETCHING:
@@ -19,7 +18,7 @@ export default function loginReducer(
         case ADD_USER_TYPE:
             return { ...state, userType: action.payload, choosedUserType: true };
         case CHOOSED_USER_TYPE:
-            return { ...state, choosedUserType: action.choosedUserType }
+            return { ...state, choosedUserType: action.data.choosedUserType, userType: action.data.userType || false }
         default:
             return state;
     }

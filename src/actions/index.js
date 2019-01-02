@@ -26,7 +26,7 @@ export const emailVerified = (emailVerified) => ({
     emailVerified
 });
 
-export const choosedUserType = (choosedUserType) => ({
+export const choosedUserType = (data) => ({
     type: CHOOSED_USER_TYPE,
-    choosedUserType
+    data
 });
