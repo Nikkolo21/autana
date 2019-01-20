@@ -39,7 +39,7 @@ class Projects extends Component {
             return (<Project uid={this.props.uid} key={index} project={project} />)
         }) : false
         return (
-            <div className="px-5">
+            <div className="px-2 px-md-5 px-lg-8">
                 <p className="text-right my-4 mr-lg-5">
                     <Link to='create_project'> Add Project </Link>
                 </p>

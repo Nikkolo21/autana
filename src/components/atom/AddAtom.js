@@ -4,12 +4,17 @@ import { base } from '../../base';
 import { connect } from 'react-redux';
 import { openAndCloseModal } from '../../actions';
 import { bindActionCreators } from 'redux';
+import SearchCountry from '../SearchCountry';
+import { isFetching } from '../../actions/atoms/addAtoms';
+
+const uuidv4 = require('uuid/v4'); //random ID
 
 class AddAtom extends Component {
     constructor() {
         super();
         this.state = {
-            projects: []
+            projects: [],
+            selectedCountries: []
         };
     }
 
@@ -26,13 +31,60 @@ class AddAtom extends Component {
         });
     }
 
+    _handleEvent = (e) => {
+      this.setState({ [e.target.name]: e.target.value });
+    }
+
+    _getSelectedCountries = (countries) => {
+        this.setState({ selectedCountries: countries });
+    }
+
+    _chooseProject = (e) => {
+        this.setState({choosedProject: e.target.id === this.state.choosedProject ? false : e.target.id});
+    }
+
     componentWillUnmount() {
         base.removeBinding(this.projectsRef);
     }
 
+    _handleSubmit = (e) => {
+        e.preventDefault();
+        let { _isFetching, _closeModal } = this.props;
+        if (this._validForm()) {
+            _isFetching(true);
+            const ATOM_ID = uuidv4();
+            let { name, description, selectedCountries, choosedProject } = this.state;
+            this.ref = base.post(`atoms/${ATOM_ID}`, {
+                data: { name, description, selectedCountries, projectKey: choosedProject }
+            }).then(err => {
+                if (!err) {
+                    this.ref = base.post(`projects/${choosedProject}/atoms/${ATOM_ID}`, {
+                        data: { name, description, selectedCountries }
+                    }).then(err => {
+                        _isFetching(false);
+                        if (!err) {
+                            _closeModal();
+                        }
+                    }).catch(() => {
+                        _isFetching(false);
+                    })
+                }
+                base.removeBinding(this.ref);
+            }).catch(() => {
+                _isFetching(false);
+            });
+        }
+    }
+
+    _validForm = () => {
+      let { name, description, selectedCountries, choosedProject } = this.state;
+      return name && description && choosedProject && selectedCountries[0];
+    }
+
     render() {
-        let button = false ? "enabled " : "disabled ";
-        const { _closeModal } = this.props;
+        const { _closeModal, loading } = this.props;
+        const { projects, choosedProject } = this.state
+        let button = this._validForm() && !loading ? "enabled " : "disabled ";
         return (
             <div className="addAtomBody">
                 <div className="card basic-form">
@@ -42,30 +94,41 @@ class AddAtom extends Component {
                     <div className="text-center text-white card-header bg-addProject py-2">
                         <h4 className="title">Create Atom</h4>
                     </div>
-                    <div className="card-body py-5 px-md-5 text-left">
+                    <form className="card-body py-5 px-md-5 text-left" onSubmit={this._handleSubmit}>
                         <div className="px-md-5">
                             <div className="form-group">
                                 <label>Name*</label>
-                                <input type="text" className="form-control px-4 py-2" name="name" id="name" onChange={this.handleEvent} />
+                                <input type="text" className="form-control px-4 py-2" name="name" id="name" onChange={this._handleEvent} />
                             </div>
                             <div className="form-group">
                                 <label>Description*</label>
-                                <textarea type="text" className="form-control" name="description" id="description" onChange={this.handleEvent} />
+                                <textarea type="text" className="form-control" name="description" id="description" onChange={this._handleEvent} />
                             </div>
                             <div className="form-group">
                                 <label>Select project*</label><br />
                                 {
-                                    this.state.projects.map((project, index) => {
-                                        return (<small className="py-2 px-3 mb-1 mr-1 selectProject" key={index} style={{ backgroundColor: project.tagColor }}>{project.name}</small>)
+                                    projects.map((project, index) => {
+                                        return (
+                                            <small title={project.name}
+                                                id={project.key} onClick={this._chooseProject}
+                                                className={`py-2 px-3 mb-1 mr-1 selectProject
+                                                ${choosedProject === project.key ? "selectProjectActive" : ""}`}
+                                                key={index} style={{ backgroundColor: project.tagColor }}>
+                                                {choosedProject === project.key ?
+                                                    <i className="fa fa-check" style={{ color: "white" }} /> : project.tag}
+                                            </small>
+                                        )
                                     })
                                 }
                             </div>
+                            <SearchCountry method={this._getSelectedCountries}
+                                searchLabel="Where are you looking for nomads?" size={5} />
                         </div>
                         <div className="text-center">
-                            <button type="submit" className={`${button} btn btn-light btn-lg px-4`}
-                                onClick={this.addProject}>Create</button>
+                            <button type="submit"
+                                className={`${button} btn btn-light btn-lg px-4`}>Create</button>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         )
@@ -74,13 +137,15 @@ class AddAtom extends Component {
 
 const mapDispatchToProps = dispatch => (
     bindActionCreators({
-        _closeModal: openAndCloseModal
+        _closeModal: openAndCloseModal,
+        _isFetching: isFetching
     }, dispatch)
 )
 
 const mapStateToProps = state => ({
     isOpen: state.atoms.modal,
-    uid: state.auth.uid
+    uid: state.auth.uid,
+    loading: state.add_atom.isFetching
 })
 
 export default connect(

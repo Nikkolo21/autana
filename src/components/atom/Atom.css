@@ -4,10 +4,16 @@
 }
 
 .selectProject {
-    border-radius: 5px; 
+    border-radius: 5px;
     color: white; 
     display: inline-block;
     cursor: pointer;
+    transition: .1s;
+}
+
+.selectProjectActive {
+    transition: 1s;
+    border-radius: 0px;
 }
 
 @media only screen and (max-width: 768px) {

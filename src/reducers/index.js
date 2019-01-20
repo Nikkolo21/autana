@@ -6,9 +6,11 @@ import projectsReducer from './projectsReducer';
 import addProjectReducer from './addProjectReducer';
 import authReducer from './authReducer';
 import redirectReducer from './redirectReducer';
+import addAtomReducer from './addAtomReducer';
 
 const reducer = {
     add_project: addProjectReducer,
+    add_atom: addAtomReducer,
     atoms: atomsReducer,
     auth: authReducer,
     client: clientReducer,

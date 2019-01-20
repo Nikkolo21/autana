@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { auth, base } from '../../base';
 import * as routes from '../../constants/routes';
 import './Auth.css';
@@ -12,10 +12,8 @@ import { redirect } from '../../actions/redirect';
 
 class Register extends Component {
   constructor(props) {
-    super(props)
-    this.state = {
-      toHome: false
-    }
+    super(props);
+    this.state = {}
   }
   _register = (event) => {
     const { _emailVerified, _isFetching, _redirect } = this.props;
@@ -31,8 +29,7 @@ class Register extends Component {
           if (!err) {
             auth.onAuthStateChanged((user) => {
               _emailVerified(false); _isFetching(false); _redirect("/lets_go");
-              this.setState({ toHome: true });
-              user.sendEmailVerification()
+              user && user.sendEmailVerification();
             })
           }
         })
@@ -62,9 +59,6 @@ class Register extends Component {
   }
 
   render() {
-    if (this.state.toHome) {
-      return <Redirect to='/home' />
-    }
     let button = this._validForm() && !this.props.loading ?
       "enabledR " : "disabledR ";
     return (

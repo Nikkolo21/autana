@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { base } from '../../base';
 import { isFetching } from '../../actions/projects/addProject';
-import SearchCountry from '../SearchCountry';
 import './Project.css';
 
 const uuidv4 = require('uuid/v4'); //random ID
@@ -14,9 +13,7 @@ class AddProject extends Component {
     super();
     this.state = {
       toProjects: false,
-      buttonClass: 'disabled',
-      selectedCountries: [],
-      tagColors: ["#E42B2B", "#b93b51", "#FFA501", "yellow", "#515195", "#4183FF", "#41833F", "#84D284", "black"]
+      buttonClass: 'disabled'
     }
   }
 
@@ -24,13 +21,13 @@ class AddProject extends Component {
     if (this._validForm()) {
       this.props._isFetching();
       const PROJECT_ID = uuidv4();
-      let { name, tag, shortDescription, tagColor, selectedCountries } = this.state;
+      let { name, tag, shortDescription, tagColor } = this.state;
       this.ref = base.post(`projects/${PROJECT_ID}`, {
-        data: { name, tag, shortDescription, tagColor, countries: selectedCountries, atomsCount: 0 }
+        data: { name, tag, shortDescription, tagColor, atomsCount: 0 }
       }).then(err => {
         if (!err) {
           this.ref = base.post(`users/${this.props.uid}/projects/${PROJECT_ID}`, {
-            data: { name, tagColor }
+            data: { name, tag, tagColor }
           }).then(err => {
             this.props._isFetching();
             if (!err) {
@@ -47,34 +44,26 @@ class AddProject extends Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
-  _getSelectedCountries = (countries) => {
-    this.setState({ selectedCountries: countries });
-  }
-
   _selectColor = (color) => {
     this.setState({ tagColor: color !== this.state.tagColor ? color : "" });
   }
 
   _validForm = () => {
-    let { name, tag, shortDescription, tagColor, selectedCountries } = this.state;
-    return name && tag && shortDescription && tagColor && selectedCountries[0];
+    let { name, tag, shortDescription, tagColor } = this.state;
+    return name && tag && shortDescription && tagColor;
   }
 
   render() {
-    let { tagColor } = this.state;
+    let { tagColor, toProjects } = this.state;
     let { loading, tagColors } = this.props;
-    let searchCountry =
-      <SearchCountry method={this._getSelectedCountries}
-        searchLabel="Where are you looking for nomads?" />
-    let button = this._validForm() && !loading ?
-      "enabled " : "disabled ";
+    let button = this._validForm() && !loading ? "enabled " : "disabled ";
 
-    if (this.state.toProjects) {
+    if (toProjects) {
       return <Redirect to='/my_projects' />
     }
     return (
       <div className="container my-5 addProjectContainer" id="theBody">
-        <div className="card basic-form mx-2">
+        <div className="card basic-form mx-md-2">
           <small className="text-right pt-5 pr-5">
             <Link to='/my_projects' style={{ color: "red", textDecoration: "none" }}>Go back</Link>
           </small>
@@ -108,7 +97,6 @@ class AddProject extends Component {
                   }
                 </div>
               </div>
-              {searchCountry}
             </div>
             <div className="text-center mt-1">
               <button type="submit" className={`${button} btn btn-light btn-lg px-4`}

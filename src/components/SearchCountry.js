@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { countries } from './json/countries';
 import './SearchCountry.css';
+import { connect } from 'react-redux';
 
-export default class SearchCountry extends Component {
+class SearchCountry extends Component {
 
     constructor(props) {
         super(props);
@@ -10,30 +11,29 @@ export default class SearchCountry extends Component {
             searchedCountries: [],
             selectedCountries: []
         }
-        this.searchCountry = this.searchCountry.bind(this);
     }
 
-    searchCountry(e) {
+    searchCountry = (e) => {
         let count = 0;
         e.target.value ?
             this.setState({
                 searchedCountries:
                     countries.filter((country) => {
-                        return new RegExp(e.target.value, "i").test(country.name) && count++ < 5;
+                        return new RegExp(e.target.value, "i").test(country.name) && count++ < (this.props.size || 5);
                     })
             })
             :
             this.setState({ searchedCountries: [] })
     }
 
-    addCountry(e) {
+    addCountry = (e) => {
         if (!this.state.selectedCountries.includes(e)) {
             this.setState({ searchedCountries: [], selectedCountries: this.state.selectedCountries.concat(e) })
             this.props.method(this.state.selectedCountries.concat(e));
         }
     }
 
-    deleteCountry(e) {
+    deleteCountry = (e) => {
         const newSelectedCountries = this.state.selectedCountries.filter((sc) => {
             return sc !== e
         })
@@ -46,8 +46,7 @@ export default class SearchCountry extends Component {
             return (<div className={`${this.state.selectedCountries.includes(qc) ? "selectedCountry " : "click "} p-3`}
                 title={this.state.selectedCountries.includes(qc) ? "Already selected" : ""}
                 key={i} onClick={this.addCountry.bind(this, qc)}>
-                <span className="d-block d-sm-none">{qc.code} <img alt={qc.name} className="queryCountryImg" src={`/imgs/flags/${qc.icon}`} /> </span>
-                <span className="d-none d-sm-block">{qc.name} </span>
+                <span>{qc.name}  <img alt={qc.name} className="queryCountryImg" src={`/imgs/flags/${qc.icon}`} /> </span>
             </div>)
         })
         let selectedCountries = this.state.selectedCountries.map((sc, i) => {
@@ -71,3 +70,5 @@ export default class SearchCountry extends Component {
         )
     }
 }
+
+export default connect()(SearchCountry);
