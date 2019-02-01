@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import {base} from '../../base';
+import React, { Component, Fragment } from 'react'
+import { base } from '../../base';
 import { Link } from 'react-router-dom';
 import Atom from '../atom/Atom';
 import { atomSectionIsFetching } from '../../actions/atoms/atoms';
@@ -13,37 +13,44 @@ class ShowProject extends Component {
             atoms: []
         }
     }
-    componentWillMount () {
+    componentWillMount() {
         this.props._atomSectionIsFetching(true);
         const projectId = this.props.match.params.id;
-        this.projectRef = base.syncState(`projects/${projectId}/atoms`, {
+        this.projectRef = base.listenTo(`projects/${projectId}/atoms`, {
             context: this,
-            state: 'atoms',
+            //state: 'atoms',
             asArray: true,
-            then() {
-                base.removeBinding(this.projectRef);
+            queries: {
+                orderByChild: 'creationDate',
+                //limitToLast: 100
+            },
+            then(atoms) {
+                //base.removeBinding(this.projectRef);
+                this.setState({ atoms: atoms.slice(0).reverse() })
                 this.props._atomSectionIsFetching(false);
             }
         });
     }
 
-    render () {
+    render() {
         const { atoms } = this.state;
         const { atomIsFetching } = this.props;
-        const atomsRender = atoms[0] ? atoms.map((atom, index)=> {
-            return (<Atom projectId={this.props.match.params.id} key={index} atom={atom}/>)
+        const atomsRender = atoms[0] ? atoms.map((atom, index) => {
+            return (<Atom projectId={this.props.match.params.id} key={index} atom={atom} />)
         }) : false
         return (
-            <div className="px-2 px-md-5 px-lg-8">
-                <small className="text-right my-4">
-                    <Link to='/my_projects' style={{color: "red", textDecoration: "none"}}> Go back </Link>
-                </small>
-                <div className="mt-3">
-                    { !atomIsFetching ? 
+            <div className="px-2 px-md-5 px-lg-8 mx-lg-5">
+                <div className="py-3">
+                    <small className="text-right">
+                        <Link to='/my_projects' style={{ color: "red", textDecoration: "none" }}> Go back </Link>
+                    </small>
+                </div>
+                <Fragment>
+                    {!atomIsFetching ?
                         atomsRender || <h5 className="text-center mt-5"> Seems there is not atoms </h5> :
                         ("loading")
                     }
-                </div>
+                </Fragment>
             </div>
         )
     }

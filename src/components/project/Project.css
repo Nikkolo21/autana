@@ -1,7 +1,4 @@
 /* Add group */
-body {
-    background-color: rgba(10, 10, 10, 0.08) !important;
-}
 
 .title {
     color: #358bdc;
@@ -9,10 +6,6 @@ body {
 
 .basic-form {
     background-color: white;
-}
-
-.card {
-    border: 1px solid rgba(0,0,0,.1);
 }
 
 .my-form-control {
@@ -54,8 +47,8 @@ body {
 }
 
 .selectedCountryImg {
-    height: 3rem;
-    width: 3rem;
+    height: 2rem;
+    width: 2rem;
 }
 .queryCountryImg {
     height: 1rem;
@@ -119,4 +112,82 @@ body {
     color: pink; 
     cursor: pointer;
     position: absolute;
+}
+
+.showAtomsLink {
+    cursor: pointer;
+    position: absolute; 
+    bottom: 20px;
+    left: 40px;
+    font-size: 11px;
+    border: solid 1px #78D9F7;
+    border-radius: 2px;
+    padding: 4px 8px;
+    color: #6ebbd3 !important;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.showAtomsLinkActive, .showAtomsLink:hover {
+    background-color: #78D9F7;
+    color: white !important;
+    text-decoration: none;
+}
+
+.ctaButton {
+    cursor: pointer;
+    font-size: 11px;
+    border: solid 1px #78D9F7;
+    border-radius: 2px;
+    padding: 4px 8px;
+    color: #6ebbd3 !important;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.ctaButtonActive, .ctaButton:hover {
+    background-color: #78D9F7;
+    color: white !important;
+    text-decoration: none;
+}
+
+.showAtomsLink {
+    position: absolute; 
+    bottom: 20px;
+    left: 40px;
+}
+
+.atomLinkLoader {
+    border-radius: 2px;
+    position: absolute; 
+    bottom: 20px;
+    left: 40px;
+    background-color: rgba(10, 10, 10, 0.05);
+    height: 25px;
+    width: 60px;
+}
+
+.card {
+    border: none !important;
+    border-radius: 0px !important;
+}
+
+.cardDate {
+    position: absolute;
+    right: 20px;
+    bottom: 25px;
+    color: rgba(10,10,10,0.3);
+}
+
+.notAtoms {
+    border: .1px solid #e2564f;
+    color: #e2564f !important;
+    cursor: auto;
+    border-radius: 0px;
+    font-weight: normal;
+}
+
+.notAtoms:hover {
+    background-color: white;
+    color: #e2564f !important;
 }

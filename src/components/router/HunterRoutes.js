@@ -7,6 +7,7 @@ import Atoms from '../atom/Atoms';
 import ShowProject from '../project/ShowProject';
 import AddProject from '../project/AddProject';
 import Board from '../user/Board';
+import ShowAtom from '../atom/ShowAtom';
 
 export default class RootHunter extends Component {
     render() {
@@ -17,6 +18,7 @@ export default class RootHunter extends Component {
                 <Route exact path={routes.ADD_PROJECT} component={AddProject} />
                 <Route exact path={routes.SHOW_PROJECT} component={ShowProject} />
                 <Route exact path={routes.ATOMS} component={Atoms} />
+                <Route exact path={routes.SHOW_ATOM} component={ShowAtom} />
             </Fragment>
         )
     }

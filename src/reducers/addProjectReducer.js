@@ -7,7 +7,7 @@ export default function addProjectReducer(
       "#E42B2B",
       "#b93b51",
       "#FFA501",
-      "yellow",
+      "#0087bc",
       "#515195",
       "#4183FF",
       "#41833F",

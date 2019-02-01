@@ -10,21 +10,24 @@ class Projects extends Component {
     constructor() {
         super();
         this.state = {
-            projects: []
+            projects: [],
+            atoms: [],
+            atomsCount: 0
         };
     }
 
     componentWillMount() {
-        this.props._isFetching();
-        this.projectsRef = base.syncState(`users/${this.props.uid}/projects`, {
+        this.props._projectIsFetching();
+        this.projectsRef = base.listenTo(`users/${this.props.uid}/projects`, {
             context: this,
-            state: 'projects',
             asArray: true,
             queries: {
+                orderByChild: 'creationDate',
                 //limitToFirst: 4
             },
-            then() {
-                this.props._isFetching();
+            then(projects) {
+                this.setState({ projects: projects.slice(0).reverse() })
+                this.props._projectIsFetching();
             }
         });
     }
@@ -39,9 +42,9 @@ class Projects extends Component {
             return (<Project uid={this.props.uid} key={index} project={project} />)
         }) : false
         return (
-            <div className="px-2 px-md-5 px-lg-8">
+            <div className="px-2 px-md-5 mx-lg-5">
                 <p className="text-right my-4 mr-lg-5">
-                    <Link to='create_project'> Add Project </Link>
+                    <Link to='create_project' className="ctaButton py-2"> Create Project </Link>
                 </p>
                 <div className="mt-3 px-lg-5">
                     {!this.props.loading ?
@@ -56,7 +59,7 @@ class Projects extends Component {
 
 const mapDispatchToProps = dispatch => (
     bindActionCreators({
-        _isFetching: isFetching
+        _projectIsFetching: isFetching
     }, dispatch)
 )
 

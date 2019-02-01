@@ -21,13 +21,26 @@ class AddProject extends Component {
     if (this._validForm()) {
       this.props._isFetching();
       const PROJECT_ID = uuidv4();
+      let creationDate = new Date().getTime();
       let { name, tag, shortDescription, tagColor } = this.state;
       this.ref = base.post(`projects/${PROJECT_ID}`, {
-        data: { name, tag, shortDescription, tagColor, atomsCount: 0 }
+        data: {
+          name,
+          tag,
+          shortDescription,
+          tagColor,
+          atomsCount: 0,
+          creationDate
+        }
       }).then(err => {
         if (!err) {
           this.ref = base.post(`users/${this.props.uid}/projects/${PROJECT_ID}`, {
-            data: { name, tag, tagColor }
+            data: {
+              name,
+              tag,
+              tagColor,
+              creationDate
+            }
           }).then(err => {
             this.props._isFetching();
             if (!err) {
@@ -62,12 +75,14 @@ class AddProject extends Component {
       return <Redirect to='/my_projects' />
     }
     return (
-      <div className="container my-5 addProjectContainer" id="theBody">
-        <div className="card basic-form mx-md-2">
-          <small className="text-right pt-5 pr-5">
+      <div className="container mb-3 addProjectContainer" id="theBody">
+        <div className="py-3">
+          <small className="mb-5 pl-2">
             <Link to='/my_projects' style={{ color: "red", textDecoration: "none" }}>Go back</Link>
           </small>
-          <div className="text-center text-white card-header bg-addProject py-2">
+        </div>
+        <div className="card basic-form mx-md-2">
+          <div className="text-center text-white card-header bg-addProject py-2 mt-5">
             <h4 className="title">Create a project</h4>
           </div>
           <div className="card-body py-5 px-md-5">

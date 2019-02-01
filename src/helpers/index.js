@@ -12,3 +12,16 @@ export const validatePassword = (pwd) => {
     //const REG_EXP = /[!@#$%^&*(),.?":{}|<>]/;
     //return REG_EXP.test(pwd);
 }
+
+export const timeStampToDate = (timestamp) => {
+    const DATE = new Date(timestamp);
+    return {
+        withOutHour: DATE.getDate() + "/" + (DATE.getMonth() + 1) + "/" + DATE.getFullYear(),
+        withHour: DATE.getDate() + "/" + (DATE.getMonth() + 1) + "/" + DATE.getFullYear() + " " + DATE.getHours() + ":" + DATE.getMinutes()
+    };
+}
+
+export const elsMinCarByRes = () => {
+    const clientWidth = document.body.clientWidth;
+    return clientWidth > 768 ? 4 : (clientWidth < 520 ? 2 : 3);
+} //elements in mini caroussel by resolution

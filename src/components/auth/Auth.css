@@ -1,6 +1,6 @@
 .authContainer {
     width: 40rem !important;
-    max-width: 90vw !important;
+    max-width: 100vw !important;
 }
 .myRecaptcha {
     margin: 0 auto;

@@ -46,7 +46,7 @@ class Login extends Component {
         return (
             <div className="container my-5 authContainer">
                 <form className="card basic-form mx-2" onSubmit={this._login}>
-                    <div className="text-right pt-5 pr-5">
+                    <div className="text-right pt-3 pr-3 pt-md-5 pr-md-5">
                         <Link to='/home'> Go back</Link>
                     </div>
                     <div className="text-center text-white card-header bg-addProject pt-2">

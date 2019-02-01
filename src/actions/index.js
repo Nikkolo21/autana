@@ -3,7 +3,8 @@ import {
     ADD_CLIENT_UID,
     HEADER_IS_FETCHING,
     EMAIL_VERIFIED,
-    CHOOSED_USER_TYPE
+    CHOOSED_USER_TYPE,
+    CHOOSED_BASIC_INPUT
 } from "../constants/action-types";
 
 export const openAndCloseModal = modal => ({
@@ -28,5 +29,10 @@ export const emailVerified = (emailVerified) => ({
 
 export const choosedUserType = (data) => ({
     type: CHOOSED_USER_TYPE,
+    data
+});
+
+export const chooseBasicInput = (data) => ({
+    type: CHOOSED_BASIC_INPUT,
     data
 });

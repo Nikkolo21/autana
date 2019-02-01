@@ -50,7 +50,7 @@ class SearchCountry extends Component {
             </div>)
         })
         let selectedCountries = this.state.selectedCountries.map((sc, i) => {
-            return (<div title={sc.name} className="click selectedCountry py-1 py-md-3 px-1 px-md-3 mx-1 mb-2" onClick={this.deleteCountry.bind(this, sc)} key={i}>
+            return (<div title={sc.name} className="click selectedCountry py-3 px-3 mx-1 mb-2" onClick={this.deleteCountry.bind(this, sc)} key={i}>
                 <img alt={sc.name} className="selectedCountryImg" src={`/imgs/flags/${sc.icon}`} />
             </div>)
         })
@@ -58,14 +58,14 @@ class SearchCountry extends Component {
             <div>
                 <div className="form-group noMarginBot">
                     <label>{this.props.searchLabel}*</label>
-                    <input type="text" className="my-form-control py-4 px-4" name="users" id="users" onChange={this.searchCountry} />
+                    <input autoComplete="off" type="text" className="my-form-control py-4 px-4" name="users" id="users" onChange={this.searchCountry} />
                 </div>
-                <div className="form-group mb-5">
+                <div className="form-group mb-4">
                     <div type="text" className="holo" name="users" id="users">
                         {queryCountries}
                     </div>
                 </div>
-                <div className="row mb-4 mx-2">{selectedCountries}</div>
+                <div className="row mb-4 mx-1">{selectedCountries}</div>
             </div>
         )
     }

@@ -6,6 +6,7 @@ import { openAndCloseModal } from '../../actions';
 import { bindActionCreators } from 'redux';
 import SearchCountry from '../SearchCountry';
 import { isFetching } from '../../actions/atoms/addAtoms';
+import BasicInput from '../util/BasicInput';
 
 const uuidv4 = require('uuid/v4'); //random ID
 
@@ -23,16 +24,17 @@ class AddAtom extends Component {
             context: this,
             asArray: true,
             queries: {
+                orderByChild: 'creationDate'
                 //limitToFirst: 4
             },
             then(projects) {
-                this.setState({ projects });
+                this.setState({ projects: projects.slice(0).reverse() });
             }
         });
     }
 
     _handleEvent = (e) => {
-      this.setState({ [e.target.name]: e.target.value });
+        this.setState({ [e.target.name]: e.target.value });
     }
 
     _getSelectedCountries = (countries) => {
@@ -40,7 +42,7 @@ class AddAtom extends Component {
     }
 
     _chooseProject = (e) => {
-        this.setState({choosedProject: e.target.id === this.state.choosedProject ? false : e.target.id});
+        this.setState({ choosedProject: e.target.id === this.state.choosedProject ? false : e.target.id });
     }
 
     componentWillUnmount() {
@@ -54,12 +56,29 @@ class AddAtom extends Component {
             _isFetching(true);
             const ATOM_ID = uuidv4();
             let { name, description, selectedCountries, choosedProject } = this.state;
+            let { selectedType } = this.props;
+            let creationDate = new Date().getTime();
             this.ref = base.post(`atoms/${ATOM_ID}`, {
-                data: { name, description, selectedCountries, projectKey: choosedProject }
+                data: {
+                    name,
+                    description,
+                    selectedCountries,
+                    projectKey: choosedProject,
+                    selectedType,
+                    isPublished: false,
+                    creationDate
+                }
             }).then(err => {
                 if (!err) {
                     this.ref = base.post(`projects/${choosedProject}/atoms/${ATOM_ID}`, {
-                        data: { name, description, selectedCountries }
+                        data: {
+                            name,
+                            description,
+                            selectedCountries,
+                            selectedType,
+                            isPublished: false,
+                            creationDate
+                        }
                     }).then(err => {
                         _isFetching(false);
                         if (!err) {
@@ -77,8 +96,9 @@ class AddAtom extends Component {
     }
 
     _validForm = () => {
-      let { name, description, selectedCountries, choosedProject } = this.state;
-      return name && description && choosedProject && selectedCountries[0];
+        let { name, description, selectedCountries, choosedProject } = this.state;
+        let { selectedType } = this.props;
+        return name && description && choosedProject && selectedType && selectedCountries[0];
     }
 
     render() {
@@ -105,6 +125,13 @@ class AddAtom extends Component {
                                 <textarea type="text" className="form-control" name="description" id="description" onChange={this._handleEvent} />
                             </div>
                             <div className="form-group">
+                                <label>Select type of atom*</label>
+                                <BasicInput data={[
+                                    { value: "design", text: "Design" },
+                                    { value: "coding", text: "Coding" }
+                                ]} />
+                            </div>
+                            <div className="form-group">
                                 <label>Select project*</label><br />
                                 {
                                     projects.map((project, index) => {
@@ -121,6 +148,7 @@ class AddAtom extends Component {
                                     })
                                 }
                             </div>
+
                             <SearchCountry method={this._getSelectedCountries}
                                 searchLabel="Where are you looking for nomads?" size={5} />
                         </div>
@@ -145,7 +173,8 @@ const mapDispatchToProps = dispatch => (
 const mapStateToProps = state => ({
     isOpen: state.atoms.modal,
     uid: state.auth.uid,
-    loading: state.add_atom.isFetching
+    loading: state.add_atom.isFetching,
+    selectedType: state.input.data
 })
 
 export default connect(

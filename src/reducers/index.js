@@ -7,12 +7,14 @@ import addProjectReducer from './addProjectReducer';
 import authReducer from './authReducer';
 import redirectReducer from './redirectReducer';
 import addAtomReducer from './addAtomReducer';
+import inputReducer from './inputReducer';
 
 const reducer = {
     add_project: addProjectReducer,
     add_atom: addAtomReducer,
     atoms: atomsReducer,
     auth: authReducer,
+    input: inputReducer,
     client: clientReducer,
     projects: projectsReducer,
     redirect: redirectReducer

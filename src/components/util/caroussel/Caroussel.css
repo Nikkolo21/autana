@@ -1,0 +1,87 @@
+.carousselContainer {
+    position: relative;
+    display: inline-block;
+    height: 240px;
+    width: 100%;
+    padding: .5% .5%;
+    text-align:center;
+    background-color: rgba(10,10,10,0.02)
+}
+.square {
+    width: 24%;
+    height: 95%;
+    background-color: white;
+    margin-left: .5%;
+    margin-right: .5%;
+    margin-top: .5%;
+    padding: 30px;
+    float: left;
+    border-radius: 4px;
+    text-decoration: none !important;
+    color: rgba(10, 10, 10, 0.8);
+}
+
+.square:hover {
+    color: rgba(10, 10, 10, 0.8);
+}
+
+.squareTitle {
+    color: rgba(10, 10, 10, 0.9);
+    min-height: 30%;
+    font-size: 14px !important;
+}
+
+.square div {
+    font-size: 12px;
+    background: rgba(10, 10, 10, 0.04);
+    margin-bottom: 5px;
+    padding: 4px 0;
+}
+
+.square div:nth-child(odd) { background: white; }
+
+.rightRow, .leftRow {
+    position: absolute;
+    height: 40%;
+    width: 40px;
+    background-color: rgba(10, 10, 10, 0.05);
+    top: 30%;
+    transition: .5s;
+    cursor: pointer;
+    display: table;
+}
+
+.rightRow i, .leftRow i {
+    display: table-cell;
+    vertical-align: middle;
+    color: rgba(10, 10, 10, 0.4)
+}
+
+.rightRow {
+    right: 0;
+}
+
+.leftRow {
+    left: 0;
+}
+
+.rightRow:hover, .leftRow:hover {
+    background-color: rgba(10, 10, 10, 0.1);
+    transition: .5s;
+}
+
+@media only screen and (max-width: 768px) {
+    .square {
+        width: 32%;
+        margin-left: .5%;
+        margin-right: .5%;
+    }
+}
+
+@media only screen and (max-width: 520px) {
+    .square {
+        width: 49%;
+        margin-left: .5%;
+        margin-right: .5%;
+    }
+}
