@@ -60,13 +60,16 @@ class AddAtom extends Component {
             let creationDate = new Date().getTime();
             this.ref = base.post(`atoms/${ATOM_ID}`, {
                 data: {
-                    name,
-                    description,
-                    selectedCountries,
-                    projectKey: choosedProject,
-                    selectedType,
-                    isPublished: false,
-                    creationDate
+                    basic: {
+                        name,
+                        description,
+                        selectedCountries,
+                        projectKey: choosedProject,
+                        selectedType,
+                        isPublished: false,
+                        creationDate,
+                        updateDate: null
+                    }
                 }
             }).then(err => {
                 if (!err) {
@@ -77,7 +80,8 @@ class AddAtom extends Component {
                             selectedCountries,
                             selectedType,
                             isPublished: false,
-                            creationDate
+                            creationDate,
+                            updateDate: null
                         }
                     }).then(err => {
                         _isFetching(false);

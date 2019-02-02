@@ -1,0 +1,16 @@
+.elementsContent {
+    background: rgba(10, 10, 10, 0.04);
+    padding: 10px 20px;
+    color: rgba(10, 10, 10, 0.9);
+}
+
+.elementsContent:nth-child(odd) { background: white; }
+
+.elementsContentTitle {
+    color: #358bdc;
+    font-size: 11px;
+}
+
+.elementsContent h6 {
+    color: rgba(10, 10, 10, 0.9);
+}

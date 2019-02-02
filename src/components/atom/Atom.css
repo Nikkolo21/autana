@@ -16,14 +16,6 @@
     border-radius: 0px;
 }
 
-
-#contentAtomSection div {
-    background: rgba(10, 10, 10, 0.04);
-    padding: 10px 20px;
-}
-
-#contentAtomSection div:nth-child(odd) { background: white; }
-
 @media only screen and (max-width: 768px) {
     .addAtomBody {
         width: 95vw;
