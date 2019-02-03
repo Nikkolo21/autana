@@ -23,14 +23,14 @@ class LetsGo extends Component {
             <div className="wrap">
                 <div id="nomad" className="chooseUsertypeBox wrap" onClick={this.choosePath}>
                     <div className="letsGoBoxTopSection wrap">
-                        <div className="letsGoBoxImage" />
+                        <div className="letsGoBoxImage letsNomadImg" />
                     </div>
                     <div className="letsGoBoxBottomSection">
                     </div>
                 </div>
                 <div id="hunter" className="chooseUsertypeBox" onClick={this.choosePath}>
                     <div className="letsGoBoxTopSection wrap">
-                        <div className="letsGoBoxImage">
+                        <div className="letsGoBoxImage letsHunterImg">
                         </div>
                     </div>
                     <div className="letsGoBoxBottomSection"></div>

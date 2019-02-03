@@ -68,7 +68,7 @@ class AddAtom extends Component {
                         selectedType,
                         isPublished: false,
                         creationDate,
-                        updateDate: null
+                        updateDate: creationDate
                     }
                 }
             }).then(err => {
@@ -81,7 +81,7 @@ class AddAtom extends Component {
                             selectedType,
                             isPublished: false,
                             creationDate,
-                            updateDate: null
+                            updateDate: creationDate
                         }
                     }).then(err => {
                         _isFetching(false);

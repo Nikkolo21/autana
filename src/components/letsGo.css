@@ -20,16 +20,7 @@
     width: 500px;
     height: 600px;
     margin: 30px;
-    transition: .5s;
-    -webkit-filter: grayscale(100%);
-    filter: grayscale(100%);
     cursor: pointer;
-}
-
-.chooseUsertypeBox:hover {
-    transition: .5s;
-    -webkit-filter: grayscale(0%);
-    filter: grayscale(0%);
 }
 
 .letsGoBoxTopSection {
@@ -43,7 +34,16 @@
 }
 
 .letsGoBoxImage {
-    width: 150px;
-    height: 150px;
-    background-color: aqua;
+    width: 200px;
+    height: 200px;
+    background-size: cover;
+    
+}
+
+.letsHunterImg {
+    background-image: url(/imgs/hunter.png);
+}
+
+.letsNomadImg {
+    background-image: url(/imgs/nomad.png);
 }

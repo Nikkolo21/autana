@@ -31,7 +31,7 @@ class Header extends Component {
   render() {
     let { choosedUserType, isFetching, loggedIn, modalIsOpen, _openModal, userType } = this.props;
     return (
-      <div className="bg-white py-4 px-xs-2 px-sm-5">
+      <div className="header bg-white py-4 px-xs-2 px-sm-5">
         <div className="d-flex justify-content-between">
           <NavLink to={routes.HOME} className="navbar-brand myLogo align-self-center"></NavLink>
           {

@@ -17,7 +17,7 @@ export const timeStampToDate = (timestamp) => {
     const DATE = new Date(timestamp);
     return {
         withOutHour: DATE.getDate() + "/" + (DATE.getMonth() + 1) + "/" + DATE.getFullYear(),
-        withHour: DATE.getDate() + "/" + (DATE.getMonth() + 1) + "/" + DATE.getFullYear() + " " + DATE.getHours() + ":" + DATE.getMinutes()
+        withHour: DATE.getDate() + "/" + (DATE.getMonth() + 1) + "/" + DATE.getFullYear() + " " + DATE.getHours() + ":" + (DATE.getMinutes() < 10 ? "0" : "") + DATE.getMinutes()
     };
 }
 

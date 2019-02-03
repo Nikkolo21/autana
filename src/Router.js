@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Route, BrowserRouter as Router } from 'react-router-dom';
@@ -49,23 +49,25 @@ class Routes extends Component {
     const { isAuth, children, choosedUserType, userType } = this.props;
     return (
       <Router>
-        <div>
+        <Fragment>
           {children}
           <Header />
-          <Route exact path={routes.HOME} component={PublicHomePage} />
-          <Route exact path={routes.LOGIN} component={Login} />
-          <Route exact path={routes.REGISTER} component={Register} />
-          {
-            !choosedUserType &&
-            <Route exact path={routes.LETS_GO} component={LetsGo} />
-          }
-          {
-            isAuth && choosedUserType && (
-              userType === "hunter" ? <HunterRoutes /> :
-                <NomadRoutes />
-            )
-          }
-        </div>
+          <div className="container-fluid" style={{ paddingTop: "110px", width: "100vw" }}>
+            <Route exact path={routes.HOME} component={PublicHomePage} />
+            <Route exact path={routes.LOGIN} component={Login} />
+            <Route exact path={routes.REGISTER} component={Register} />
+            {
+              !choosedUserType &&
+              <Route exact path={routes.LETS_GO} component={LetsGo} />
+            }
+            {
+              isAuth && choosedUserType && (
+                userType === "hunter" ? <HunterRoutes /> :
+                  <NomadRoutes />
+              )
+            }
+          </div>
+        </Fragment>
       </Router>
     )
   }
