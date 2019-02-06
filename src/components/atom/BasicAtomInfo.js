@@ -34,11 +34,13 @@ class BasicAtomInfo extends Component {
                     <ElementView title="Name" value={atom.name} />
                     <ElementView title="Description" value={atom.description} />
                     <ElementView title="The type of this atom is" value={atom.selectedType} />
-                    <ElementView title="Creation date | Update date"
-                        value={`
-                        ${timeStampToDate(atom.creationDate).withHour} | 
-                        ${timeStampToDate(atom.updateDate).withHour}
-                    `} />
+                    {
+                        atom.creationDate && <ElementView title="Creation date | Update date"
+                            value={`
+                            ${timeStampToDate(atom.creationDate).withHour} | 
+                            ${timeStampToDate(atom.updateDate).withHour}
+                        `} />
+                    }
                     {
                         atom.selectedCountries &&
                         <ElementView title="I'm looking for nomads in" value={atom.selectedCountries} countries={true} />

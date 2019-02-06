@@ -50,7 +50,7 @@ class Login extends Component {
                         <Link to='/home'> Go back</Link>
                     </div>
                     <div className="text-center text-white card-header bg-addProject pt-2">
-                        <img style={{ "height": "150px", "width": "150px" }} src={`/imgs/bridge.png`} alt="login" />
+                        <img style={{ "height": "180px", "width": "180px" }} src={`/imgs/desktop.png`} alt="login" />
                     </div>
                     <div className="card-body pb-3 pt-2 px-md-5">
                         <div className="px-md-5">
