@@ -1,6 +1,6 @@
 .addAtomBody {
     height: auto;
-    width: 80vw;
+    width: 1000px;
 }
 
 .selectProject {
@@ -16,8 +16,8 @@
     border-radius: 0px;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 1000px) {
     .addAtomBody {
-        width: 95vw;
+        width: 90vw;
     }
 }
