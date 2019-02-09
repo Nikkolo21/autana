@@ -55,13 +55,14 @@ class AddAtom extends Component {
         if (this._validForm()) {
             _isFetching(true);
             const ATOM_ID = uuidv4();
-            let { name, description, selectedCountries, choosedProject } = this.state;
+            let { name, tag, description, selectedCountries, choosedProject } = this.state;
             let { selectedType } = this.props;
             let creationDate = new Date().getTime();
             this.ref = base.post(`atoms/${ATOM_ID}`, {
                 data: {
                     basic: {
                         name,
+                        tag,
                         description,
                         selectedCountries,
                         projectKey: choosedProject,
@@ -76,6 +77,7 @@ class AddAtom extends Component {
                     this.ref = base.post(`projects/${choosedProject}/atoms/${ATOM_ID}`, {
                         data: {
                             name,
+                            tag,
                             description,
                             selectedCountries,
                             selectedType,
@@ -100,9 +102,9 @@ class AddAtom extends Component {
     }
 
     _validForm = () => {
-        let { name, description, selectedCountries, choosedProject } = this.state;
+        let { name, tag, description, selectedCountries, choosedProject } = this.state;
         let { selectedType } = this.props;
-        return name && description && choosedProject && selectedType && selectedCountries[0];
+        return name && tag && description && choosedProject && selectedType && selectedCountries[0];
     }
 
     render() {
@@ -123,6 +125,10 @@ class AddAtom extends Component {
                             <div className="form-group">
                                 <label>Name*</label>
                                 <input type="text" className="form-control px-4 py-2" name="name" id="name" onChange={this._handleEvent} />
+                            </div>
+                            <div className="form-group">
+                                <label>Tag*</label>
+                                <input type="text" maxLength="5" className="my-form-control p-4" name="tag" id="tag" onChange={this._handleEvent} />
                             </div>
                             <div className="form-group">
                                 <label>Description*</label>

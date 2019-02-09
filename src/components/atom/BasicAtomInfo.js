@@ -32,6 +32,7 @@ class BasicAtomInfo extends Component {
                 <div id="contentAtomSection" className="card card-body p-2 p-sm-3 p-md-4 p-lg-5">
                     <p><a className="ctaButton px-2 my-2 float-right">Edit info</a></p>
                     <ElementView title="Name" value={atom.name} />
+                    <ElementView title="Tag" value={atom.tag} />
                     <ElementView title="Description" value={atom.description} />
                     <ElementView title="The type of this atom is" value={atom.selectedType} />
                     {
