@@ -124,7 +124,7 @@ class AddAtom extends Component {
                         <div className="px-md-5">
                             <div className="form-group">
                                 <label>Name*</label>
-                                <input type="text" className="form-control px-4 py-2" name="name" id="name" onChange={this._handleEvent} />
+                                <input type="text" className="form-control p-4" name="name" id="name" onChange={this._handleEvent} />
                             </div>
                             <div className="form-group">
                                 <label>Tag*</label>

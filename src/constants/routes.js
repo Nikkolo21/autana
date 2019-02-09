@@ -11,6 +11,10 @@ export const ADD_PROJECT = '/create_project';
 export const ATOMS = '/my_atoms';
 export const SHOW_ATOM = '/atom/:atom_id';
 
+export const WORKS = '/my_works';
+export const SHOW_WORK = '/my_works/:id';
+export const ADD_WORK = '/create_work';
+
 export const BOARD = '/board';
 
 export const LETS_GO = '/lets_go';
