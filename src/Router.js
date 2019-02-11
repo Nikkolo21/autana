@@ -52,7 +52,7 @@ class Routes extends Component {
         <Fragment>
           {children}
           <Header />
-          <div className="container-fluid" style={{ paddingTop: "110px", width: "100vw" }}>
+          <div className="container-fluid" style={{ paddingTop: "110px" }}>
             <Route exact path={routes.HOME} component={PublicHomePage} />
             <Route exact path={routes.LOGIN} component={Login} />
             <Route exact path={routes.REGISTER} component={Register} />
