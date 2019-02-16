@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import './Atom.css';
-import { base } from '../../base';
+import { firestoreDB } from '../../base';
 import { connect } from 'react-redux';
 import { openAndCloseModal } from '../../actions';
 import { bindActionCreators } from 'redux';
 import SearchCountry from '../SearchCountry';
 import { isFetching } from '../../actions/atoms/addAtoms';
 import BasicInput from '../util/BasicInput';
-
-const uuidv4 = require('uuid/v4'); //random ID
 
 class AddAtom extends Component {
     constructor() {
@@ -20,17 +18,12 @@ class AddAtom extends Component {
     }
 
     componentWillMount() {
-        this.projectsRef = base.listenTo(`users/${this.props.uid}/projects`, {
-            context: this,
-            asArray: true,
-            queries: {
-                orderByChild: 'creationDate'
-                //limitToFirst: 4
-            },
-            then(projects) {
-                this.setState({ projects: projects.slice(0).reverse() });
-            }
-        });
+        firestoreDB.collection("projects").where("userId", "==", this.props.uid).orderBy("creationDate", "desc")
+            .get().then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    this.setState({ projects: [...this.state.projects, { key: doc.id, ...doc.data() }] });
+                });
+            });
     }
 
     _handleEvent = (e) => {
@@ -45,58 +38,30 @@ class AddAtom extends Component {
         this.setState({ choosedProject: e.target.id === this.state.choosedProject ? false : e.target.id });
     }
 
-    componentWillUnmount() {
-        base.removeBinding(this.projectsRef);
-    }
-
     _handleSubmit = (e) => {
         e.preventDefault();
         let { _isFetching, _closeModal } = this.props;
         if (this._validForm()) {
             _isFetching(true);
-            const ATOM_ID = uuidv4();
             let { name, tag, description, selectedCountries, choosedProject } = this.state;
             let { selectedType } = this.props;
             let creationDate = new Date().getTime();
-            this.ref = base.post(`atoms/${ATOM_ID}`, {
-                data: {
-                    basic: {
-                        name,
-                        tag,
-                        description,
-                        selectedCountries,
-                        projectKey: choosedProject,
-                        selectedType,
-                        isPublished: false,
-                        creationDate,
-                        updateDate: creationDate
-                    }
-                }
-            }).then(err => {
-                if (!err) {
-                    this.ref = base.post(`projects/${choosedProject}/atoms/${ATOM_ID}`, {
-                        data: {
-                            name,
-                            tag,
-                            description,
-                            selectedCountries,
-                            selectedType,
-                            isPublished: false,
-                            creationDate,
-                            updateDate: creationDate
-                        }
-                    }).then(err => {
-                        _isFetching(false);
-                        if (!err) {
-                            _closeModal();
-                        }
-                    }).catch(() => {
-                        _isFetching(false);
-                    })
-                }
-                base.removeBinding(this.ref);
-            }).catch(() => {
+            firestoreDB.collection("atoms").add({
+                name,
+                tag,
+                description,
+                selectedCountries,
+                projectId: choosedProject,
+                selectedType,
+                isPublished: false,
+                creationDate,
+                updateDate: creationDate
+            }).then(data => {
                 _isFetching(false);
+                _closeModal();
+            }).catch(error => {
+                _isFetching(false);
+                console.error(error);
             });
         }
     }
@@ -152,7 +117,7 @@ class AddAtom extends Component {
                                                 ${choosedProject === project.key ? "selectProjectActive" : ""}`}
                                                 key={index} style={{ backgroundColor: project.tagColor }}>
                                                 {choosedProject === project.key ?
-                                                    <i className="fa fa-check" style={{ color: "white" }} /> : project.tag}
+                                                    <i style={{ color: 'white', fontSize: '12px' }}> {project.tag} &#32; &#8226;</i> : project.tag}
                                             </small>
                                         )
                                     })

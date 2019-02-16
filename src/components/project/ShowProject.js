@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { base } from '../../base';
+import { firestoreDB } from '../../base';
 import { Link } from 'react-router-dom';
 import Atom from '../atom/Atom';
 import { atomSectionIsFetching } from '../../actions/atoms/atoms';
@@ -15,21 +15,15 @@ class ShowProject extends Component {
     }
     componentWillMount() {
         this.props._atomSectionIsFetching(true);
-        const projectId = this.props.match.params.id;
-        this.projectRef = base.listenTo(`projects/${projectId}/atoms`, {
-            context: this,
-            //state: 'atoms',
-            asArray: true,
-            queries: {
-                orderByChild: 'creationDate',
-                //limitToLast: 100
-            },
-            then(atoms) {
-                //base.removeBinding(this.projectRef);
-                this.setState({ atoms: atoms.slice(0).reverse() })
+        this.ref = firestoreDB.collection("atoms").where("projectId", "==", this.props.match.params.id).orderBy("creationDate", "desc")
+            .onSnapshot((querySnapshot) => {
+                this.setState({ atoms: [] })
                 this.props._atomSectionIsFetching(false);
-            }
-        });
+                querySnapshot.forEach((doc) => {
+                    !this.state.atoms.includes({ key: doc.id, ...doc.data() }) &&
+                        this.setState({ atoms: [...this.state.atoms, { key: doc.id, ...doc.data() }] });
+                });
+            })
     }
 
     render() {
@@ -42,7 +36,7 @@ class ShowProject extends Component {
             <div className="px-2 px-md-5 px-lg-8 mx-lg-5">
                 <div className="py-3">
                     <small className="text-right">
-                        <Link to='/my_projects' style={{ color: "red", textDecoration: "none" }}> Go back </Link>
+                        <Link to='/my_projects' className="goBackLink"> Go back </Link>
                     </small>
                 </div>
                 <Fragment>

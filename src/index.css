@@ -8,3 +8,23 @@ body {
 .bg-white {
   background-color: white;
 }
+
+.btn-cta {
+  background-color: #4183FF;
+  color: white;
+}
+
+.goBackLink {
+  color: red;
+  text-decoration: none !important;
+}
+
+.goBackLink:hover {
+  color: red;
+}
+
+.ellipsisText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

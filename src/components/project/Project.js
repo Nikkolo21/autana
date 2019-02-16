@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { base } from '../../base';
+import { base, firestoreDB } from '../../base';
 import { connect } from 'react-redux';
 import { timeStampToDate } from '../../helpers';
 import MiniCaroussel from '../util/caroussel/MiniCaroussel';
@@ -17,16 +17,13 @@ class Project extends Component {
 
   componentWillMount() {
     this.setState({ atomIsLoading: true });
-    this.projectsRef = base.listenTo(`projects/${this.props.project.key}/atoms`, {
-      context: this,
-      asArray: true,
-      queries: {
-        orderByChild: 'creationDate'
-      },
-      then(atoms) {
-        this.setState({ atoms: atoms.slice(0).reverse(), atomsCount: atoms[0] ? atoms.length : 0, atomIsLoading: false })
-      }
-    })
+    firestoreDB.collection("atoms").where("projectId", "==", this.props.project.key).orderBy("creationDate", "desc")
+      .onSnapshot(querySnapshot => {
+        this.setState({ atoms: [], atomsCount: querySnapshot.size, atomIsLoading: false });
+        querySnapshot.forEach((doc) => {
+          this.setState({ atoms: [...this.state.atoms, { key: doc.id, ...doc.data() }] });
+        });
+      })
   }
 
   _onDeleteClick = () => {

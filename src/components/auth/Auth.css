@@ -7,22 +7,27 @@
     width: 304px;
 }
 
-.enabled {
+.enabledR {
     background-color: rgba(101, 142, 204, 0.9) !important;
     color: white !important;
 }
 
-.disabled {
+.disabledR {
     background-color: rgba(101, 142, 204, 0.3) !important;
     color: white !important;
 }
 
-.enabledR {
+.enabled {
     background-color: rgba(124, 102, 171, 0.9) !important;
     color: white !important;
 }
 
-.disabledR {
+.disabled {
     background-color: rgba(124, 102, 171, 0.3) !important;
     color: white !important;
+}
+
+.authCircleImg {
+    height: 170px;
+    width: 170px;
 }

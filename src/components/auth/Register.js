@@ -68,7 +68,7 @@ class Register extends Component {
             <Link to='/home'> Go back</Link>
           </div>
           <div className="text-center text-white card-header bg-addProject pt-2">
-            <img style={{ "height": "180px", "width": "180px" }} src={`/imgs/mountain.png`} alt="login" />
+            <img className="authCircleImg" src={`/imgs/desktop.png`} alt="register autana" />
           </div>
           <div className="card-body pb-3 pt-2 px-md-5">
             <div className="px-md-5">

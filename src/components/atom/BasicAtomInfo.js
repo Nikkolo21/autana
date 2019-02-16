@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { timeStampToDate } from '../../helpers';
 import ElementView from '../util/view/ElementView';
-import { base } from '../../base';
+import { firestoreDB } from '../../base';
 import { bindActionCreators } from 'redux';
 import { atomSectionIsFetching } from '../../actions/atoms/atoms';
 import { connect } from 'react-redux';
@@ -16,14 +16,14 @@ class BasicAtomInfo extends Component {
 
     componentWillMount() {
         this.props._atomSectionIsFetching(true);
-        this.projectRef = base.listenTo(`atoms/${this.props.atom_id}/basic`, {
-            context: this,
-            asArray: false,
-            then(atom) {
-                this.setState({ atom })
+        firestoreDB.collection("atoms").doc(this.props.atom_id)
+            .get().then((doc) => {
                 this.props._atomSectionIsFetching(false);
-            }
-        });
+                this.setState({ atom: { key: doc.id, ...doc.data() } });
+            }).catch(error => {
+                this.props._atomSectionIsFetching(false);
+                console.log(error);
+            });
     }
     render() {
         const { atom } = this.state;

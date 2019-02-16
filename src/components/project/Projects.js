@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Project from './Project';
-import { base } from '../../base';
+import { firestoreDB } from '../../base';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { isFetching } from '../../actions/projects/projects';
@@ -18,22 +18,13 @@ class Projects extends Component {
 
     componentWillMount() {
         this.props._projectIsFetching();
-        this.projectsRef = base.listenTo(`users/${this.props.uid}/projects`, {
-            context: this,
-            asArray: true,
-            queries: {
-                orderByChild: 'creationDate',
-                //limitToFirst: 4
-            },
-            then(projects) {
-                this.setState({ projects: projects.slice(0).reverse() })
+        firestoreDB.collection("projects").where("userId", "==", this.props.uid).orderBy("creationDate", "desc")
+            .get({ userId: this.props.uid }).then((querySnapshot) => {
                 this.props._projectIsFetching();
-            }
-        });
-    }
-
-    componentWillUnmount() {
-        base.removeBinding(this.projectsRef);
+                querySnapshot.forEach((doc) => {
+                    this.setState({ projects: [...this.state.projects, { ...doc.data(), key: doc.id }] });
+                });
+            });
     }
 
     render() {

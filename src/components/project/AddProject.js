@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { base } from '../../base';
 import { isFetching } from '../../actions/projects/addProject';
 import './Project.css';
-
-const uuidv4 = require('uuid/v4'); //random ID
+import { firestoreDB } from '../../base';
 
 class AddProject extends Component {
   constructor() {
@@ -20,36 +18,21 @@ class AddProject extends Component {
   _addProject = () => {
     if (this._validForm()) {
       this.props._isFetching();
-      const PROJECT_ID = uuidv4();
       let creationDate = new Date().getTime();
       let { name, tag, shortDescription, tagColor } = this.state;
-      this.ref = base.post(`projects/${PROJECT_ID}`, {
-        data: {
-          name,
-          tag,
-          shortDescription,
-          tagColor,
-          atomsCount: 0,
-          creationDate
-        }
-      }).then(err => {
-        if (!err) {
-          this.ref = base.post(`users/${this.props.uid}/projects/${PROJECT_ID}`, {
-            data: {
-              name,
-              tag,
-              tagColor,
-              creationDate
-            }
-          }).then(err => {
-            this.props._isFetching();
-            if (!err) {
-              this.setState({ toProjects: true });
-            }
-          })
-        }
-        base.removeBinding(this.ref);
-      });
+      firestoreDB.collection("projects").add({
+        name,
+        userId: this.props.uid,
+        tag,
+        shortDescription,
+        tagColor,
+        atomsCount: 0,
+        creationDate
+      }).then(data => {
+        this.setState({ toProjects: true });
+      }).catch(error => {
+        console.log(error);
+      })
     }
   }
 
@@ -106,7 +89,7 @@ class AddProject extends Component {
                     tagColors.map((color, index) => {
                       let active = color === tagColor;
                       return (<div key={index} onClick={this._selectColor.bind(this, color)} className={`mr-1 mb-1 tagColor ${active ? "tagActive" : ""}`} style={{ backgroundColor: color }}>
-                        {active && <i className="fa fa-check" style={{ color: "white" }} />}
+                        {active && <i style={{ color: 'white', fontSize: "18px" }}>&#32; &#8226;</i>}
                       </div>)
                     })
                   }

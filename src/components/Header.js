@@ -44,7 +44,7 @@ class Header extends Component {
                     {
                       userType === "hunter" &&
                       <Fragment>
-                        <button className="btn btn-sm btn-info align-self-center mb-2 mr-2" onClick={_openModal} style={{ backgroundColor: "#4183FF" }}>Create Atom</button>
+                        <button className="btn btn-sm btn-default align-self-center mb-2 mr-2 btn-cta" onClick={_openModal}>Create Atom</button>
                         <NavLink activeClassName="navbarActive" to={routes.PROJECTS} className="nav-link">Projects</NavLink>
                       </Fragment>
                     }

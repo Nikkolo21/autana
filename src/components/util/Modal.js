@@ -1,13 +1,14 @@
-import React from 'react'
+import React, { Component } from 'react'
 import './Modal.css';
 
-const Modal = ({ children }) => {
-  return (
-    <div className="modalBox py-5">
-      <div className="modalChild">
-        {children}
+export default class Modal extends Component {
+  render() {
+    return (
+      <div className="modalBox py-5">
+        <div className="modalChild">
+          {this.props.children}
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
 }
-export default Modal;

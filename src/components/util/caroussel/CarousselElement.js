@@ -9,7 +9,7 @@ export default class CarousselElement extends Component {
         let updateDate = timeStampToDate(square.updateDate);
         return (
             <Link to={{ pathname: `/atom/${square.key}` }} className="square" onClick={this._whoIs}>
-                <div className="squareTitle">
+                <div className="squareTitle ellipsisText" title={square.name}>
                     {square.name}
                 </div>
                 <div>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { atomSectionIsFetching } from '../../actions/atoms/atoms';
 import { bindActionCreators } from 'redux';

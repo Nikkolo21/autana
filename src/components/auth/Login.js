@@ -31,7 +31,7 @@ class Login extends Component {
             auth.signInWithEmailAndPassword(this.state.email, this.state.password).then(user => {
                 this.props.isFetching(false);
             }).catch((error) => {
-                console.log(error.message);
+                console.log(error);
                 this.props.isFetching(false);
             });
         }
@@ -50,7 +50,7 @@ class Login extends Component {
                         <Link to='/home'> Go back</Link>
                     </div>
                     <div className="text-center text-white card-header bg-addProject pt-2">
-                        <img style={{ "height": "180px", "width": "180px" }} src={`/imgs/desktop.png`} alt="login" />
+                        <img className="authCircleImg" src={`/imgs/mountain.png`} alt="login autana" />
                     </div>
                     <div className="card-body pb-3 pt-2 px-md-5">
                         <div className="px-md-5">
@@ -65,7 +65,7 @@ class Login extends Component {
                         </div>
                         <div className="text-center">
                             <button style={{ backgroundColor: "#6b3faf" }}
-                                type="submit" className={`${button} btn btn-login btn-light btn-lg px-4`}>
+                                type="submit" className={`${button} btn btn-light btn-lg px-4`}>
                                 Login
                             </button>
                             <p className="mt-4"> Do not you have an account? <Link to={routes.REGISTER}>Register</Link> </p>
