@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Project from './Project';
 import { firestoreDB } from '../../base';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { isFetching } from '../../actions/projects/projects';
 import { bindActionCreators } from 'redux';
@@ -12,11 +12,10 @@ class Projects extends Component {
         this.state = {
             projects: [],
             atoms: [],
-            atomsCount: 0
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.props._projectIsFetching();
         firestoreDB.collection("projects").where("userId", "==", this.props.uid).orderBy("creationDate", "desc")
             .get({ userId: this.props.uid }).then((querySnapshot) => {
@@ -59,4 +58,4 @@ const mapStateToProps = state => ({
     loading: state.projects.isFetching
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Projects));
+export default connect(mapStateToProps, mapDispatchToProps)(Projects);

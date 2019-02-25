@@ -27,7 +27,8 @@ class AddProject extends Component {
         shortDescription,
         tagColor,
         atomsCount: 0,
-        creationDate
+        creationDate,
+        updateDate: creationDate
       }).then(data => {
         this.setState({ toProjects: true });
       }).catch(error => {

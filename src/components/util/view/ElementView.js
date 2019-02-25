@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './elementView.css';
+import SearchCountry from '../../SearchCountry';
 
 export default class ElementView extends Component {
     render() {
@@ -11,16 +12,22 @@ export default class ElementView extends Component {
                 {
                     this.props.countries ?
                         (
-                            this.props.value.map((elem, index) => {
-                                return <img title={elem.name} key={index} alt={elem.name}
-                                    className="queryCountryImg mr-3 my-2" src={`/imgs/flags/${elem.icon}`}
-                                    style={{ width: "2rem", height: "2rem" }} />
-                            })
+                            this.props.edit ?
+                                <SearchCountry defaultCountries={this.props.defaultCountries} method={this.props.getSelectedCountries} size={5} /> :
+                                this.props.value.map((elem, index) => {
+                                    return <img title={elem.name} key={index} alt={elem.name}
+                                        className="queryCountryImg mr-3 my-2" src={`/imgs/flags/${elem.icon}`}
+                                        style={{ width: "2rem", height: "2rem" }} />
+                                })
                         ) :
                         (
-                            <h6 className="pt-1">
-                                {this.props.value}
-                            </h6>
+                            this.props.edit ?
+                                this.props.textarea ?
+                                    <textarea {...this.props.config} name={this.props.name} onChange={this.props.onChangeFn} value={this.props.value} /> :
+                                    <input {...this.props.config} name={this.props.name} onChange={this.props.onChangeFn} value={this.props.value} /> :
+                                (<h6 className="pt-1">
+                                    {this.props.value}
+                                </h6>)
                         )
                 }
             </div>

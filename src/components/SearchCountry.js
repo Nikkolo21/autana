@@ -13,6 +13,10 @@ class SearchCountry extends Component {
         }
     }
 
+    componentDidMount() {
+        this.props.defaultCountries && this.setState({ selectedCountries: this.props.defaultCountries });
+    }
+
     searchCountry = (e) => {
         let count = 0;
         e.target.value ?
@@ -57,7 +61,7 @@ class SearchCountry extends Component {
         return (
             <div>
                 <div className="form-group noMarginBot">
-                    <label>{this.props.searchLabel}*</label>
+                    <label>{this.props.searchLabel && `${this.props.searchLabel} *`}</label>
                     <input autoComplete="off" type="text" className="my-form-control py-4 px-4" name="users" id="users" onChange={this.searchCountry} />
                 </div>
                 <div className="form-group mb-4">

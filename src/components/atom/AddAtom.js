@@ -17,7 +17,7 @@ class AddAtom extends Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         firestoreDB.collection("projects").where("userId", "==", this.props.uid).orderBy("creationDate", "desc")
             .get().then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
@@ -43,9 +43,9 @@ class AddAtom extends Component {
         let { _isFetching, _closeModal } = this.props;
         if (this._validForm()) {
             _isFetching(true);
-            let { name, tag, description, selectedCountries, choosedProject } = this.state;
-            let { selectedType } = this.props;
-            let creationDate = new Date().getTime();
+            const { name, tag, description, selectedCountries, choosedProject } = this.state;
+            const { selectedType } = this.props;
+            const creationDate = new Date().getTime();
             firestoreDB.collection("atoms").add({
                 name,
                 tag,
@@ -53,6 +53,7 @@ class AddAtom extends Component {
                 selectedCountries,
                 projectId: choosedProject,
                 selectedType,
+                userId: this.props.uid,
                 isPublished: false,
                 creationDate,
                 updateDate: creationDate

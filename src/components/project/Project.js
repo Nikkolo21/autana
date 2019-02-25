@@ -11,19 +11,23 @@ class Project extends Component {
     this.state = {
       atoms: [],
       atomsCount: 0,
-      showCaroussel: false
+      showCaroussel: false,
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.setState({ atomIsLoading: true });
-    firestoreDB.collection("atoms").where("projectId", "==", this.props.project.key).orderBy("creationDate", "desc")
+    this.unsubscribe = firestoreDB.collection("atoms").where("projectId", "==", this.props.project.key).orderBy("creationDate", "desc")
       .onSnapshot(querySnapshot => {
         this.setState({ atoms: [], atomsCount: querySnapshot.size, atomIsLoading: false });
         querySnapshot.forEach((doc) => {
           this.setState({ atoms: [...this.state.atoms, { key: doc.id, ...doc.data() }] });
         });
       })
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
   }
 
   _onDeleteClick = () => {
@@ -48,7 +52,7 @@ class Project extends Component {
       <div className="mb-3">
         <div className="card card-body">
           <div className="p-5">
-            <Link className="projectTitle" to={{ pathname: `my_projects/${key}` }}>
+            <Link className="projectTitle" to={{ pathname: `my_project/${key}` }}>
               <h4>{name}</h4>
             </Link>
             {
@@ -59,7 +63,7 @@ class Project extends Component {
                     (atoms[0] ? `${atomsCount} ${atomsCount > 1 ? 'Atoms' : 'Atom'}` : 'Not atoms')
                   }
                 </a>) :
-                (<div className="atomLinkLoader"></div>)
+                (<div className="smallBoxLoader"></div>)
             }
             <i className="fas fa-times deleteX" title="delete project" onClick={this._onDeleteClick} />
             <small className="cardDate"

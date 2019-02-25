@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { timeStampToDate } from '../../helpers';
 import ElementView from '../util/view/ElementView';
 import { firestoreDB } from '../../base';
-import { bindActionCreators } from 'redux';
 import { atomSectionIsFetching } from '../../actions/atoms/atoms';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 class BasicAtomInfo extends Component {
     constructor(props) {
@@ -14,37 +14,83 @@ class BasicAtomInfo extends Component {
         }
     }
 
-    componentWillMount() {
+    _activeEdit = () => {
+        this.setState({ edit: !this.state.edit })
+        this.state.edit && this.state.changed && this._handleSubmit();
+    }
+
+    _searchAtomBasicInfo = () => {
         this.props._atomSectionIsFetching(true);
         firestoreDB.collection("atoms").doc(this.props.atom_id)
             .get().then((doc) => {
                 this.props._atomSectionIsFetching(false);
-                this.setState({ atom: { key: doc.id, ...doc.data() } });
+                this.setState({ key: doc.id, ...doc.data() });
             }).catch(error => {
                 this.props._atomSectionIsFetching(false);
                 console.log(error);
             });
     }
+
+    componentDidMount() {
+        this._searchAtomBasicInfo();
+    }
+
+    _handleEvent = (e) => {
+        this.setState({ [e.target.name]: e.target.value, changed: true });
+    }
+
+    _validForm = () => {
+        let { name, tag, description, selectedCountries, selectedType } = this.state;
+        return name && tag && description && selectedType && selectedCountries[0];
+    }
+
+    _handleSubmit = () => {
+        if (this._validForm()) {
+            const updateDate = new Date().getTime();
+            const { name, tag, description, selectedType, selectedCountries } = this.state;
+            firestoreDB.collection("atoms").doc(this.props.atom_id).set({
+                name,
+                tag,
+                description,
+                selectedCountries,
+                selectedType,
+                updateDate
+            }, { merge: true }).then(data => {
+                this._searchAtomBasicInfo();
+            }).catch(error => {
+                console.log(error);
+            });
+        }
+    }
+
+
+    _getSelectedCountries = (countries) => {
+        this.setState({ selectedCountries: countries, changed: true });
+    }
+
     render() {
-        const { atom } = this.state;
+        let { name, tag, description, selectedType, selectedCountries, creationDate, updateDate } = this.state;
         return (
             <div className="pl-1 col-12 col-md-9">
                 <div id="contentAtomSection" className="card card-body p-2 p-sm-3 p-md-4 p-lg-5">
-                    <p><a className="ctaButton px-2 my-2 float-right">Edit info</a></p>
-                    <ElementView title="Name" value={atom.name} />
-                    <ElementView title="Tag" value={atom.tag} />
-                    <ElementView title="Description" value={atom.description} />
-                    <ElementView title="The type of this atom is" value={atom.selectedType} />
+                    <p>
+                        <a className={`ctaButton px-2 my-2 float-right ${this.state.edit && 'ctaButtonActive'}`}
+                            onClick={this._activeEdit}>{this.state.edit ? 'Save Info' : 'Edit info'}</a>
+                    </p>
+                    <ElementView config={{ maxLength: 40 }} textarea={false} onChangeFn={this._handleEvent} edit={this.state.edit} name="name" title="Name" value={name} />
+                    <ElementView config={{ maxLength: 5 }} textarea={false} onChangeFn={this._handleEvent} edit={this.state.edit} name="tag" title="Tag" value={tag} />
+                    <ElementView config={{ maxLength: 500 }} textarea={true} onChangeFn={this._handleEvent} edit={this.state.edit} name="description" title="Description" value={description} />
+                    <ElementView config={{ maxLength: 10 }} textarea={false} onChangeFn={this._handleEvent} edit={this.state.edit} name="selectedType" title="The type of this atom is" value={selectedType} />
                     {
-                        atom.creationDate && <ElementView title="Creation date | Update date"
+                        creationDate && <ElementView title="Creation date | Update date"
                             value={`
-                            ${timeStampToDate(atom.creationDate).withHour} | 
-                            ${timeStampToDate(atom.updateDate).withHour}
+                            ${timeStampToDate(creationDate).withHour} | 
+                            ${timeStampToDate(updateDate).withHour}
                         `} />
                     }
                     {
-                        atom.selectedCountries &&
-                        <ElementView title="I'm looking for nomads in" value={atom.selectedCountries} countries={true} />
+                        selectedCountries &&
+                        <ElementView defaultCountries={selectedCountries} edit={this.state.edit} getSelectedCountries={this._getSelectedCountries} title="I'm looking for nomads in" value={selectedCountries} countries={true} />
                     }
                 </div>
             </div>

@@ -2,10 +2,10 @@ export const LOGIN = '/login';
 export const REGISTER = '/register';
 export const HOME = '/home';
 export const PROFILE = '/profile';
-export const PASSWORD_FORGET = '/pw-forget';
+export const PASSWORD_FORGET = '/pw_forget';
 
 export const PROJECTS = '/my_projects';
-export const SHOW_PROJECT = '/my_projects/:id';
+export const SHOW_PROJECT = '/my_project/:id';
 export const ADD_PROJECT = '/create_project';
 
 export const ATOMS = '/my_atoms';

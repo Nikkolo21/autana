@@ -20,7 +20,7 @@ import { redirect } from './actions/redirect';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 class Routes extends Component {
-  componentWillMount() {
+  componentDidMount() {
     const { _isFetching, _emailVerified, _addClientUID, _redirect, _choosedUserType } = this.props;
     _isFetching(true);
     auth.onAuthStateChanged((user) => {

@@ -19,7 +19,7 @@ export default class Atom extends Component {
     let { atom: { key, name, creationDate } } = this.props;
     let date = timeStampToDate(creationDate);
     return (
-      <div className="py-5 px-5 card card-body mb-3">
+      <div className="py-5 px-5 card card-body mb-2">
         <Link className="projectTitle" to={{ pathname: `/atom/${key}` }}>
           <h4 className="ml-3 ml-md-5">{name}</h4>
         </Link>

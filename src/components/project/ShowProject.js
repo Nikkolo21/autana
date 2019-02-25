@@ -5,6 +5,7 @@ import Atom from '../atom/Atom';
 import { atomSectionIsFetching } from '../../actions/atoms/atoms';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import BasicProjectInfo from './BasicProjectInfo';
 
 class ShowProject extends Component {
     constructor(props) {
@@ -13,9 +14,9 @@ class ShowProject extends Component {
             atoms: []
         }
     }
-    componentWillMount() {
+    componentDidMount() {
         this.props._atomSectionIsFetching(true);
-        this.ref = firestoreDB.collection("atoms").where("projectId", "==", this.props.match.params.id).orderBy("creationDate", "desc")
+        this.unsubscribe = firestoreDB.collection("atoms").where("projectId", "==", this.props.match.params.id).orderBy("creationDate", "desc")
             .onSnapshot((querySnapshot) => {
                 this.setState({ atoms: [] })
                 this.props._atomSectionIsFetching(false);
@@ -24,6 +25,10 @@ class ShowProject extends Component {
                         this.setState({ atoms: [...this.state.atoms, { key: doc.id, ...doc.data() }] });
                 });
             })
+    }
+
+    componentWillUnmount() {
+        this.unsubscribe();
     }
 
     render() {
@@ -39,6 +44,7 @@ class ShowProject extends Component {
                         <Link to='/my_projects' className="goBackLink"> Go back </Link>
                     </small>
                 </div>
+                <BasicProjectInfo project_id={this.props.match.params.id} />
                 <Fragment>
                     {!atomIsFetching ?
                         atomsRender || <h5 className="text-center mt-5"> Seems there is not atoms </h5> :

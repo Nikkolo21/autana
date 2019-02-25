@@ -28,3 +28,13 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.smallBoxLoader {
+  border-radius: 2px;
+  position: absolute;
+  bottom: 20px;
+  left: 40px;
+  background-color: rgba(10, 10, 10, 0.05);
+  height: 25px;
+  width: 60px;
+}
