@@ -65,7 +65,8 @@ class BasicProjectInfo extends Component {
     render() {
         const { name, tag, shortDescription, creationDate, updateDate } = this.state;
         return (
-            <div id="contentAtomSection" className="col-9 card card-body p-2 p-sm-3 p-md-4 p-lg-5 mb-5">
+            <div id="contentAtomSection"
+                className={`card card-body p-2 p-sm-3 p-md-4 p-lg-5 mb-5 ${this.props.config.className}`}>
                 <p>
                     <a className={`ctaButton px-2 my-2 float-right ${this.state.edit && 'ctaButtonActive'}`}
                         onClick={this._activeEdit}>{this.state.edit ? 'Save Info' : 'Edit info'}</a>

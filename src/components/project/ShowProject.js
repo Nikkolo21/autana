@@ -22,7 +22,7 @@ export default class ShowProject extends Component {
         const { view, views } = this.state;
         return (
             <div className="row my-2 my-md-3 my-lg-5 px-2 px-md-3 px-lg-5">
-                <div className="pr-1 col-md-3">
+                <div className="col-12 col-sm-3 mb-2">
                     <div className="card card-body">
                         {
                             views.map((elem, index) => {
@@ -33,9 +33,9 @@ export default class ShowProject extends Component {
                     </div>
                 </div>
                 {view === 'Basic' &&
-                    <BasicProjectInfo project_id={this.props.match.params.id} />}
+                    <BasicProjectInfo config={{ className: 'col-12 col-sm-9' }} project_id={this.props.match.params.id} />}
                 {view === 'Atoms' &&
-                    <ListAtoms config={{ className: 'col-9' }} project_id={this.props.match.params.id} />}
+                    <ListAtoms config={{ className: 'col-12 col-sm-9' }} project_id={this.props.match.params.id} />}
             </div>
         )
     }

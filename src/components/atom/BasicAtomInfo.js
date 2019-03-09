@@ -75,40 +75,38 @@ class BasicAtomInfo extends Component {
     render() {
         let { name, tag, description, selectedType, selectedCountries, creationDate, updateDate } = this.state;
         return (
-            <div className="pl-1 col-12 col-md-9">
-                <div id="contentAtomSection" className="card card-body p-2 p-sm-3 p-md-4 p-lg-5">
-                    <p>
-                        <a className={`ctaButton blueCtaButton px-2 my-2 float-right ${this.state.edit && 'ctaButtonActive'}`}
-                            onClick={this._activeEdit}>{this.state.edit ? 'Save Info' : 'Edit info'}</a>
-                        {this.state.edit && <a className="ctaButton px-2 my-2 float-right"
-                            onClick={this._setEditFalse}>Cancel</a>}
-                    </p>
-                    <ElementView config={{ maxLength: 40 }} textarea={false} onChangeFn={this._handleEvent} edit={this.state.edit} name="name" title="Name" value={name} />
-                    <ElementView config={{ maxLength: 5 }} textarea={false} onChangeFn={this._handleEvent} edit={this.state.edit} name="tag" title="Tag" value={tag} />
-                    <ElementView config={{ maxLength: 500 }} textarea={true} onChangeFn={this._handleEvent} edit={this.state.edit} name="description" title="Description" value={description} />
-                    <ElementView config={{ maxLength: 10 }} textarea={false} onChangeFn={this._handleEvent} edit={this.state.edit} name="selectedType" title="The type of this atom is" value={selectedType} />
-                    {
-                        creationDate && <ElementView title="Creation date | Update date"
-                            value={`
-                            ${timeStampToDate(creationDate).withHour} | 
-                            ${timeStampToDate(updateDate).withHour}
-                        `} />
-                    }
-                    {
-                        selectedCountries &&
-                        <ElementView defaultCountries={selectedCountries} edit={this.state.edit} getSelectedCountries={this._getSelectedCountries} title="I'm looking for nomads in" value={selectedCountries} countries={true} />
-                    }
+            <div id="contentAtomSection" className={`card card-body p-2 p-sm-3 p-md-4 p-lg-5 ${this.props.config.className}`}>
+                <p>
+                    <a className={`ctaButton blueCtaButton px-2 my-2 float-right ${this.state.edit && 'ctaButtonActive'}`}
+                        onClick={this._activeEdit}>{this.state.edit ? 'Save Info' : 'Edit info'}</a>
+                    {this.state.edit && <a className="ctaButton px-2 my-2 float-right"
+                        onClick={this._setEditFalse}>Cancel</a>}
+                </p>
+                <ElementView config={{ maxLength: 40 }} textarea={false} onChangeFn={this._handleEvent} edit={this.state.edit} name="name" title="Name" value={name} />
+                <ElementView config={{ maxLength: 5 }} textarea={false} onChangeFn={this._handleEvent} edit={this.state.edit} name="tag" title="Tag" value={tag} />
+                <ElementView config={{ maxLength: 500 }} textarea={true} onChangeFn={this._handleEvent} edit={this.state.edit} name="description" title="Description" value={description} />
+                <ElementView config={{ maxLength: 10 }} textarea={false} onChangeFn={this._handleEvent} edit={this.state.edit} name="selectedType" title="The type of this atom is" value={selectedType} />
+                {
+                    creationDate && <ElementView title="Creation date | Update date"
+                        value={`
+                        ${timeStampToDate(creationDate).withHour} | 
+                        ${timeStampToDate(updateDate).withHour}
+                    `} />
+                }
+                {
+                    selectedCountries &&
+                    <ElementView defaultCountries={selectedCountries} edit={this.state.edit} getSelectedCountries={this._getSelectedCountries} title="I'm looking for nomads in" value={selectedCountries} countries={true} />
+                }
 
-                    {
-                        this.state.edit &&
-                        <p>
-                            <a className="ctaButton blueCtaButton px-2 float-right ctaButtonActive"
-                                onClick={this._activeEdit}>Save Info</a>
-                            <a className="ctaButton px-2 float-right"
-                                onClick={this._setEditFalse}>Cancel</a>
-                        </p>
-                    }
-                </div>
+                {
+                    this.state.edit &&
+                    <p>
+                        <a className="ctaButton blueCtaButton px-2 float-right ctaButtonActive"
+                            onClick={this._activeEdit}>Save Info</a>
+                        <a className="ctaButton px-2 float-right"
+                            onClick={this._setEditFalse}>Cancel</a>
+                    </p>
+                }
             </div>
         )
     }
