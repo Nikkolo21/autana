@@ -20,7 +20,11 @@
     cursor: pointer;
 }
 
-.activeMenu, .menuElem:hover {
+.activeMenu {
+    background-color: rgba(111, 236, 236, 0.3);
+}
+
+.menuElem:hover {
     background-color: rgba(111, 236, 236, 0.4);
 }
 

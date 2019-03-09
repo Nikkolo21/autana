@@ -140,13 +140,13 @@
     border: solid 1.4px #78D9F7;
     border-radius: 2px;
     padding: 4px 8px;
-    color: #6ebbd3 !important;
     text-decoration: none;
     font-weight: bold;
     transition: .3s;
+    color: #6ebbd3 !important;
 }
 
-.ctaButtonActive, .ctaButton:hover {
+.ctaButtonActive, .blueCtaButton:hover {
     background-color: #78D9F7;
     color: white !important;
     text-decoration: none;
