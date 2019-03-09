@@ -1,20 +1,17 @@
 import React, { Component } from 'react'
 
-export default class PubAtomInfo extends Component {
+export default class TechProjectInfo extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            pub_atom: {}
+            tech_project: {}
         }
-    }
-
-    componentDidMount() {
-        console.log(this.props.atom_id);
     }
 
     render() {
         return (
             <div className={`card card-body p-2 p-sm-3 p-md-4 p-lg-5 ${this.props.config.className}`}>
+
             </div>
         )
     }

@@ -32,11 +32,15 @@ class Projects extends Component {
             return (<Project uid={this.props.uid} key={index} project={project} />)
         }) : false
         return (
-            <div className="px-2 px-md-5 mx-lg-5">
-                <p className="text-right my-4 mr-lg-5">
-                    <Link to='create_project' className="ctaButton py-2"> Create Project </Link>
-                </p>
-                <div className="mt-3 px-lg-5">
+            <div className="row mt-4 px-md-3 px-lg-5">
+                <div className="col-3 text-center">
+                    <div className="card card-body">
+                        <p className="">
+                            <Link to='create_project' className="ctaButton py-2"> Create Project </Link>
+                        </p>
+                    </div>
+                </div>
+                <div className="col-9">
                     {!this.props.loading ?
                         (projectsRender || (<h5 className="text-center mt-5"> UPS! Seems you have not projects</h5>)) :
                         ("loading")

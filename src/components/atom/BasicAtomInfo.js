@@ -82,10 +82,14 @@ class BasicAtomInfo extends Component {
                     {this.state.edit && <a className="ctaButton px-2 my-2 float-right"
                         onClick={this._setEditFalse}>Cancel</a>}
                 </p>
-                <ElementView config={{ maxLength: 40 }} textarea={false} onChangeFn={this._handleEvent} edit={this.state.edit} name="name" title="Name" value={name} />
-                <ElementView config={{ maxLength: 5 }} textarea={false} onChangeFn={this._handleEvent} edit={this.state.edit} name="tag" title="Tag" value={tag} />
-                <ElementView config={{ maxLength: 500 }} textarea={true} onChangeFn={this._handleEvent} edit={this.state.edit} name="description" title="Description" value={description} />
-                <ElementView config={{ maxLength: 10 }} textarea={false} onChangeFn={this._handleEvent} edit={this.state.edit} name="selectedType" title="The type of this atom is" value={selectedType} />
+                <ElementView config={{ maxLength: 40 }} textarea={false} onChangeFn={this._handleEvent}
+                    edit={this.state.edit} name="name" title="Name" value={name} />
+                <ElementView config={{ maxLength: 5 }} textarea={false} onChangeFn={this._handleEvent}
+                    edit={this.state.edit} name="tag" title="Tag" value={tag} />
+                <ElementView config={{ maxLength: 500 }} textarea={true} onChangeFn={this._handleEvent}
+                    edit={this.state.edit} name="description" title="Description" value={description} />
+                <ElementView config={{ maxLength: 10 }} textarea={false} onChangeFn={this._handleEvent}
+                    edit={this.state.edit} name="selectedType" title="The type of this atom is" value={selectedType} />
                 {
                     creationDate && <ElementView title="Creation date | Update date"
                         value={`

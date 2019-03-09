@@ -33,7 +33,7 @@ class ShowAtom extends Component {
                         {
                             views.map((elem, index) => {
                                 return <MenuDisplayLink key={index} setViewFn={this.setDisplayView}
-                                    activeView={view} viewName={elem} />
+                                    activeView={view} viewName={elem} atom={true} />
                             })
                         }
                     </div>

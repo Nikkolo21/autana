@@ -16,18 +16,6 @@
     border-radius: 0px;
 }
 
-.menuElem {
-    cursor: pointer;
-}
-
-.activeMenu {
-    background-color: rgba(111, 236, 236, 0.3);
-}
-
-.menuElem:hover {
-    background-color: rgba(111, 236, 236, 0.4);
-}
-
 @media only screen and (max-width: 1000px) {
     .addAtomBody {
         width: 90vw;
