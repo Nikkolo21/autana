@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { firestoreDB } from '../../base';
 import { isFetching } from '../../actions/projects/projects';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { timeStampToDate } from '../../helpers';
 import ElementView from '../util/view/ElementView';
+import { getProject, updateProject } from '../../services/projectServices';
 
 class BasicProjectInfo extends Component {
     constructor(props) {
@@ -26,14 +26,13 @@ class BasicProjectInfo extends Component {
 
     _searchProjectBasicInfo = () => {
         this.props._projectIsFetching();
-        firestoreDB.collection("projects").doc(this.props.project_id)
-            .get().then((doc) => {
-                this.props._projectIsFetching();
-                this.setState({ key: doc.id, ...doc.data() });
-            }).catch(error => {
-                this.props._projectIsFetching();
-                console.log(error);
-            });
+        getProject(this.props.project_id, doc => {
+            this.props._projectIsFetching();
+            this.setState({ key: doc.id, ...doc.data() });
+        }, error => {
+            this.props._projectIsFetching();
+            console.log(error);
+        });
     }
 
     _handleEvent = (e) => {
@@ -49,14 +48,14 @@ class BasicProjectInfo extends Component {
         if (this._validForm()) {
             const updateDate = new Date().getTime();
             const { name, tag, shortDescription } = this.state;
-            firestoreDB.collection("projects").doc(this.props.project_id).set({
+            updateProject(this.props.project_id, {
                 name,
                 tag,
                 shortDescription,
                 updateDate
-            }, { merge: true }).then(data => {
+            }, data => {
                 this._searchProjectBasicInfo();
-            }).catch(error => {
+            }, error => {
                 console.log(error);
             });
         }

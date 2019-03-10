@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import './Atom.css';
-import { firestoreDB } from '../../base';
 import { connect } from 'react-redux';
 import { openAndCloseModal } from '../../actions';
 import { bindActionCreators } from 'redux';
-import SearchCountry from '../SearchCountry';
 import { isFetching } from '../../actions/atoms/addAtoms';
+import { createAtom } from '../../services/atomServices';
+import { getTreeByProjectId, updateProjectTree, getProjectsByUserId } from '../../services/projectServices';
+import SearchCountry from '../SearchCountry';
 import BasicInput from '../util/BasicInput';
-import { createAtom, getTreeByProjectId, updateProjectTree } from '../../services/atomServices';
+import './Atom.css';
 
 class AddAtom extends Component {
     constructor() {
@@ -19,12 +19,13 @@ class AddAtom extends Component {
     }
 
     componentDidMount() {
-        firestoreDB.collection("projects").where("userId", "==", this.props.uid).orderBy("creationDate", "desc")
-            .get().then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    this.setState({ projects: [...this.state.projects, { key: doc.id, ...doc.data() }] });
-                });
+        getProjectsByUserId(this.props.uid, { orderBy: "creationDate", orderType: "desc" }, querySnapshot => {
+            querySnapshot.forEach((doc) => {
+                this.setState({ projects: [...this.state.projects, { key: doc.id, ...doc.data() }] });
             });
+        }, error => {
+            console.log(error);
+        });
     }
 
     _handleEvent = (e) => {

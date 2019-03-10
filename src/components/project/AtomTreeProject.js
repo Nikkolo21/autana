@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { firestoreDB } from '../../base';
+import { getTreeByProjectId } from '../../services/projectServices';
 
 export default class AtomTreeProject extends Component {
     componentDidMount() {
@@ -7,12 +7,11 @@ export default class AtomTreeProject extends Component {
     }
 
     _searchProjectTreeInfo = () => {
-        firestoreDB.collection("projects.trees").where("project_id", "==", this.props.project_id)
-            .get().then(response => {
-                response.forEach(elem => console.log(elem.data()));
-            }).catch(error => {
-                console.log(error);
-            });
+        getTreeByProjectId(this.props.project_id, response => {
+            response.forEach(elem => console.log(elem.data()));
+        }, error => {
+            console.log(error);
+        });
     }
     render() {
         return (

@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import Project from './Project';
-import { firestoreDB } from '../../base';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { isFetching } from '../../actions/projects/projects';
 import { bindActionCreators } from 'redux';
+import { getProjectsByUserId } from '../../services/projectServices';
 
 class Projects extends Component {
     constructor() {
@@ -17,13 +17,15 @@ class Projects extends Component {
 
     componentDidMount() {
         this.props._projectIsFetching();
-        firestoreDB.collection("projects").where("userId", "==", this.props.uid).orderBy("creationDate", "desc")
-            .get().then((querySnapshot) => {
-                this.props._projectIsFetching();
-                querySnapshot.forEach((doc) => {
-                    this.setState({ projects: [...this.state.projects, { ...doc.data(), key: doc.id }] });
-                });
+        getProjectsByUserId(this.props.uid, { orderBy: "creationDate", orderType: "desc" }, response => {
+            this.props._projectIsFetching();
+            response.forEach((doc) => {
+                this.setState({ projects: [...this.state.projects, { ...doc.data(), key: doc.id }] });
             });
+        }, error => {
+            this.props._projectIsFetching();
+            console.log(error);
+        });
     }
 
     render() {

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { base, firestoreDB } from '../../base';
 import { connect } from 'react-redux';
 import { timeStampToDate } from '../../helpers';
 import MiniCaroussel from '../util/caroussel/MiniCaroussel';
+import { firestoreDB } from '../../base';
 
 class Project extends Component {
   constructor(props) {
@@ -17,27 +17,16 @@ class Project extends Component {
 
   componentDidMount() {
     this.setState({ atomIsLoading: true });
-    this.unsubscribe = firestoreDB.collection("atoms").where("projectId", "==", this.props.project.key).orderBy("creationDate", "desc")
-      .onSnapshot(querySnapshot => {
-        this.setState({ atoms: [], atomsCount: querySnapshot.size, atomIsLoading: false });
-        querySnapshot.forEach((doc) => {
-          this.setState({ atoms: [...this.state.atoms, { key: doc.id, ...doc.data() }] });
-        });
-      })
+    this.unbsubcribe = firestoreDB.collection("atoms").where("projectId", "==", this.props.project.key).orderBy("creationDate", "desc").onSnapshot(querySnapshot => {
+      this.setState({ atoms: [], atomsCount: querySnapshot.size, atomIsLoading: false });
+      querySnapshot.forEach((doc) => {
+        this.setState({ atoms: [...this.state.atoms, { key: doc.id, ...doc.data() }] });
+      });
+    });
   }
 
   componentWillUnmount() {
-    this.unsubscribe();
-  }
-
-  _onDeleteClick = () => {
-    base.remove(`projects/${this.props.project.key}`, () => {
-    }).then(() => {
-      base.remove(`users/${this.props.uid}/projects/${this.props.project.key}`, error => {
-      }).then(() => {
-        console.log("deleted")
-      })
-    });
+    this.unbsubcribe();
   }
 
   _showCaroussel = () => {
@@ -65,7 +54,6 @@ class Project extends Component {
                 </a>) :
                 (<div className="smallBoxLoader"></div>)
             }
-            <i className="fas fa-times deleteX" title="delete project" onClick={this._onDeleteClick} />
             <small className="cardDate"
               title={`creation date: ${date.withHour}`}>
               {date.withOutHour}

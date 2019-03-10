@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { firestoreDB } from '../../base';
 import { atomSectionIsFetching } from '../../actions/atoms/atoms';
 import Atom from '../atom/Atom';
+import { firestoreDB } from '../../base';
 
 class ListAtoms extends Component {
     constructor(props) {
@@ -14,20 +14,18 @@ class ListAtoms extends Component {
     }
     componentDidMount() {
         this.props._atomSectionIsFetching(true);
-        this.unsubscribe = firestoreDB.collection("atoms").where("projectId", "==", this.props.project_id).orderBy("creationDate", "desc")
-            .onSnapshot((querySnapshot) => {
-                this.setState({ atoms: [] })
-                this.props._atomSectionIsFetching(false);
-                querySnapshot.forEach((doc) => {
-                    !this.state.atoms.includes({ key: doc.id, ...doc.data() }) &&
-                        this.setState({ atoms: [...this.state.atoms, { key: doc.id, ...doc.data() }] });
-                });
-            })
+        this.unbsubcribe = firestoreDB.collection("atoms").where("projectId", "==", this.props.project_id).orderBy("creationDate", "desc").onSnapshot(querySnapshot => {
+            querySnapshot.forEach((doc) => {
+                this.setState({ atoms: [...this.state.atoms, { key: doc.id, ...doc.data() }] });
+            });
+            this.props._atomSectionIsFetching(false);
+        });
     }
 
     componentWillUnmount() {
-        this.unsubscribe();
+        this.unbsubcribe(); // unmount
     }
+
     render() {
         const { atoms } = this.state;
         const { atomIsFetching } = this.props;

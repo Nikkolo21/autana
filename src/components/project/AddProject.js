@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { isFetching } from '../../actions/projects/addProject';
 import './Project.css';
-import { firestoreDB } from '../../base';
+import { createProject, createProjectTree } from '../../services/projectServices';
 
 class AddProject extends Component {
   constructor() {
@@ -20,7 +20,7 @@ class AddProject extends Component {
       this.props._isFetching();
       let creationDate = new Date().getTime();
       let { name, tag, shortDescription, tagColor } = this.state;
-      firestoreDB.collection("projects").add({
+      createProject({
         name,
         userId: this.props.uid,
         tag,
@@ -29,17 +29,17 @@ class AddProject extends Component {
         atomsCount: 0,
         creationDate,
         updateDate: creationDate
-      }).then(data => {
-        firestoreDB.collection("projects.trees").add({
+      }, data => {
+        createProjectTree({
           project_id: data.id,
           project_name: name,
           tree: [],
           creationDate,
           updateDate: creationDate
-        }).then(response => {
+        }, response => {
           this.setState({ toProjects: true });
-        }).catch(error => console.log(error))
-      }).catch(error => console.log(error))
+        }, error => console.log(error))
+      }, error => console.log(error))
     }
   }
 
