@@ -18,7 +18,7 @@ class Projects extends Component {
     componentDidMount() {
         this.props._projectIsFetching();
         firestoreDB.collection("projects").where("userId", "==", this.props.uid).orderBy("creationDate", "desc")
-            .get({ userId: this.props.uid }).then((querySnapshot) => {
+            .get().then((querySnapshot) => {
                 this.props._projectIsFetching();
                 querySnapshot.forEach((doc) => {
                     this.setState({ projects: [...this.state.projects, { ...doc.data(), key: doc.id }] });
@@ -32,10 +32,10 @@ class Projects extends Component {
             return (<Project uid={this.props.uid} key={index} project={project} />)
         }) : false
         return (
-            <div className="row mt-4 px-md-3 px-lg-5">
+            <div className="row my-2 my-md-3 my-lg-5 px-md-2 px-lg-4">
                 <div className="col-3 text-center">
                     <div className="card card-body">
-                        <p className="">
+                        <p className="mt-2">
                             <Link to='create_project' className="ctaButton py-2"> Create Project </Link>
                         </p>
                     </div>

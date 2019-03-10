@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux';
 import SearchCountry from '../SearchCountry';
 import { isFetching } from '../../actions/atoms/addAtoms';
 import BasicInput from '../util/BasicInput';
+import { createAtom, getTreeByProjectId, updateProjectTree } from '../../services/atomServices';
 
 class AddAtom extends Component {
     constructor() {
@@ -46,7 +47,7 @@ class AddAtom extends Component {
             const { name, tag, description, selectedCountries, choosedProject } = this.state;
             const { selectedType } = this.props;
             const creationDate = new Date().getTime();
-            firestoreDB.collection("atoms").add({
+            const atomObj = {
                 name,
                 tag,
                 description,
@@ -57,10 +58,31 @@ class AddAtom extends Component {
                 isPublished: false,
                 creationDate,
                 updateDate: creationDate
-            }).then(data => {
-                _isFetching(false);
-                _closeModal();
-            }).catch(error => {
+            }
+            createAtom(atomObj, atomResponse => {
+                getTreeByProjectId(choosedProject, treeResponse => {
+                    treeResponse.forEach(treeElem => {
+                        updateProjectTree(treeElem.id, {
+                            updateDate: creationDate,
+                            tree: [
+                                ...treeElem.data().tree,
+                                {
+                                    type: "atom",
+                                    id: atomResponse.id,
+                                    name,
+                                    order: treeElem.data().tree.length + 1 || 1
+                                }
+                            ],
+                        }, data => {
+                            _isFetching(false);
+                            _closeModal();
+                        }, error => {
+                            _isFetching(false);
+                            console.log(error);
+                        });
+                    });
+                }, error => { console.log(error) })
+            }, error => {
                 _isFetching(false);
                 console.error(error);
             });

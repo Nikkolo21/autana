@@ -27,7 +27,7 @@ class ShowAtom extends Component {
     render() {
         const { view, views } = this.state;
         return (
-            <div className="row my-2 my-md-3 my-lg-5 px-2 px-md-3 px-lg-5">
+            <div className="row my-2 my-md-3 my-lg-5 px-md-2 px-lg-4">
                 <div className="col-12 col-sm-3 mb-2">
                     <div id="menuAtomSection" className="card card-body">
                         {

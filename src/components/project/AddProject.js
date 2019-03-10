@@ -30,10 +30,16 @@ class AddProject extends Component {
         creationDate,
         updateDate: creationDate
       }).then(data => {
-        this.setState({ toProjects: true });
-      }).catch(error => {
-        console.log(error);
-      })
+        firestoreDB.collection("projects.trees").add({
+          project_id: data.id,
+          project_name: name,
+          tree: [],
+          creationDate,
+          updateDate: creationDate
+        }).then(response => {
+          this.setState({ toProjects: true });
+        }).catch(error => console.log(error))
+      }).catch(error => console.log(error))
     }
   }
 
