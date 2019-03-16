@@ -30,7 +30,7 @@ class Project extends Component {
   }
 
   _showCaroussel = () => {
-    this.setState({ showCaroussel: !this.state.showCaroussel })
+    this.state.atoms[0] && this.setState({ showCaroussel: !this.state.showCaroussel })
   }
 
   render() {
