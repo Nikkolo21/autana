@@ -70,7 +70,6 @@ class AddAtom extends Component {
                                 {
                                     type: "atom",
                                     id: atomResponse.id,
-                                    name,
                                     order: treeElem.data().tree.length + 1 || 1
                                 }
                             ],

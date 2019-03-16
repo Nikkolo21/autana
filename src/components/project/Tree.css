@@ -1,0 +1,25 @@
+.treeBox {
+    padding-left: 40px;
+    font-size: 14px;
+}
+
+.treeBox .treeElem {
+    display: inline-flex;
+    padding: 0 24px;
+    height: 40px;
+    margin: 4px 0;
+    line-height: 40px;
+    border-radius: 8px;
+}
+
+.treeBox .project {
+    background-color: rgba(111, 236, 236, 0.3);
+}
+
+.treeBox .atom {
+    background-color: rgba(109, 224, 253, 0.3);
+}
+
+.treeBox .box {
+    background-color: rgba(111, 236, 236, 0.3);
+}

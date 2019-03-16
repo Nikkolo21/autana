@@ -28,7 +28,7 @@ class ShowAtom extends Component {
         const { view, views } = this.state;
         return (
             <div className="row my-2 my-md-3 my-lg-5 px-md-2 px-lg-4">
-                <div className="col-12 col-sm-3 mb-2">
+                <div className="col-4 col-md-3 mb-2">
                     <div id="menuAtomSection" className="card card-body">
                         {
                             views.map((elem, index) => {
@@ -39,11 +39,11 @@ class ShowAtom extends Component {
                     </div>
                 </div >
                 {view === 'Basic' &&
-                    <BasicAtomInfo config={{ className: 'col-12 col-sm-9' }} atom_id={this.props.match.params.atom_id} />}
+                    <BasicAtomInfo config={{ className: 'col-8 col-md-9' }} atom_id={this.props.match.params.atom_id} />}
                 {view === 'Technical' &&
-                    <TechAtomInfo config={{ className: 'col-12 col-sm-9' }} atom_id={this.props.match.params.atom_id} />}
+                    <TechAtomInfo config={{ className: 'col-8 col-md-9' }} atom_id={this.props.match.params.atom_id} />}
                 {view === 'Publication' &&
-                    <PubAtomInfo config={{ className: 'col-12 col-sm-9' }} atom_id={this.props.match.params.atom_id} />}
+                    <PubAtomInfo config={{ className: 'col-8 col-md-9' }} atom_id={this.props.match.params.atom_id} />}
             </div >
         )
     }

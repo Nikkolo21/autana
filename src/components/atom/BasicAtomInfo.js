@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { timeStampToDate } from '../../helpers';
 import ElementView from '../util/view/ElementView';
-import { firestoreDB } from '../../base';
 import { atomSectionIsFetching } from '../../actions/atoms/atoms';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { getAtom, editAtom } from '../../services/atomServices';
 
 class BasicAtomInfo extends Component {
     constructor(props) {
@@ -21,14 +21,13 @@ class BasicAtomInfo extends Component {
 
     _searchAtomBasicInfo = () => {
         this.props._atomSectionIsFetching(true);
-        firestoreDB.collection("atoms").doc(this.props.atom_id)
-            .get().then((doc) => {
-                this.props._atomSectionIsFetching(false);
-                this.setState({ key: doc.id, ...doc.data() });
-            }).catch(error => {
-                this.props._atomSectionIsFetching(false);
-                console.log(error);
-            });
+        getAtom(this.props.atom_id, doc => {
+            this.props._atomSectionIsFetching(false);
+            this.setState({ key: doc.id, ...doc.data() });
+        }, error => {
+            this.props._atomSectionIsFetching(false);
+            console.log(error);
+        });
     }
 
     componentDidMount() {
@@ -48,16 +47,16 @@ class BasicAtomInfo extends Component {
         if (this._validForm()) {
             const updateDate = new Date().getTime();
             const { name, tag, description, selectedType, selectedCountries } = this.state;
-            firestoreDB.collection("atoms").doc(this.props.atom_id).set({
+            editAtom(this.props.atom_id, {
                 name,
                 tag,
                 description,
                 selectedCountries,
                 selectedType,
                 updateDate
-            }, { merge: true }).then(data => {
+            }, data => {
                 this._searchAtomBasicInfo();
-            }).catch(error => {
+            }, error => {
                 console.log(error);
             });
         }

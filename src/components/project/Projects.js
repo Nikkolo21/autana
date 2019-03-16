@@ -35,14 +35,17 @@ class Projects extends Component {
         }) : false
         return (
             <div className="row my-2 my-md-3 my-lg-5 px-md-2 px-lg-4">
-                <div className="col-3 text-center">
+                <div className="col-4 col-md-3 text-center">
                     <div className="card card-body">
-                        <p className="mt-2">
+                        <p className="my-4">
+                            <small> Projects: {projects.length} </small>
+                        </p>
+                        <p>
                             <Link to='create_project' className="ctaButton py-2"> Create Project </Link>
                         </p>
                     </div>
                 </div>
-                <div className="col-9">
+                <div className="col-8 col-md-9">
                     {!this.props.loading ?
                         (projectsRender || (<h5 className="text-center mt-5"> UPS! Seems you have not projects</h5>)) :
                         ("loading")
