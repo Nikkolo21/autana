@@ -1,7 +1,7 @@
 .asideButton {
     width: auto;
     padding: 10px 20px;
-    background-color: rgba(10, 10, 10, 0.5);
+    background-color: #4183FF;
     color: white;
     border-radius: 3px 0px 0px 3px;
     position: absolute;
@@ -39,7 +39,7 @@
     top: 0;
     right: 0;
     height: 40px;
-    background-color: rgba(10, 10, 10, 0.2);
+    background-color: #4183FF;
     width: 232px;
     padding: 10px 30px;
     text-align: right;
