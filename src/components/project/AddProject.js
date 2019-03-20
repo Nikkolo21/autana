@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { isFetching } from '../../actions/projects/addProject';
 import './Project.css';
-import { createProject, createProjectTree } from '../../services/projectServices';
+import { createProject } from '../../services/projectServices';
 
 class AddProject extends Component {
   constructor() {
@@ -30,15 +30,7 @@ class AddProject extends Component {
         creationDate,
         updateDate: creationDate
       }, data => {
-        createProjectTree({
-          project_id: data.id,
-          project_name: name,
-          tree: [],
-          creationDate,
-          updateDate: creationDate
-        }, response => {
-          this.setState({ toProjects: true });
-        }, error => console.log(error))
+        this.setState({ toProjects: true });
       }, error => console.log(error))
     }
   }

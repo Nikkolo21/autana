@@ -10,6 +10,7 @@
     margin: 4px 0;
     line-height: 40px;
     border-radius: 8px;
+    cursor: pointer;
 }
 
 .treeBox .project {
@@ -23,3 +24,10 @@
 .treeBox .box {
     background-color: rgba(111, 236, 236, 0.3);
 }
+
+#div1 {
+    width: 350px;
+    height: 70px;
+    padding: 10px;
+    border: 1px solid #aaaaaa;
+  }

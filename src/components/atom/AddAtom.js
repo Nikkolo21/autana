@@ -4,7 +4,7 @@ import { openAndCloseModal } from '../../actions';
 import { bindActionCreators } from 'redux';
 import { isFetching } from '../../actions/atoms/addAtoms';
 import { createAtom } from '../../services/atomServices';
-import { getTreeByProjectId, updateProjectTree, getProjectsByUserId } from '../../services/projectServices';
+import { getProjectsByUserId } from '../../services/projectServices';
 import SearchCountry from '../SearchCountry';
 import BasicInput from '../util/BasicInput';
 import './Atom.css';
@@ -60,28 +60,9 @@ class AddAtom extends Component {
                 creationDate,
                 updateDate: creationDate
             }
-            createAtom(atomObj, atomResponse => {
-                getTreeByProjectId(choosedProject, treeResponse => {
-                    treeResponse.forEach(treeElem => {
-                        updateProjectTree(treeElem.id, {
-                            updateDate: creationDate,
-                            tree: [
-                                ...treeElem.data().tree,
-                                {
-                                    type: "atom",
-                                    id: atomResponse.id,
-                                    order: treeElem.data().tree.length + 1 || 1
-                                }
-                            ],
-                        }, data => {
-                            _isFetching(false);
-                            _closeModal();
-                        }, error => {
-                            _isFetching(false);
-                            console.log(error);
-                        });
-                    });
-                }, error => { console.log(error) })
+            createAtom(atomObj, () => {
+                _closeModal();
+                _isFetching(false);
             }, error => {
                 _isFetching(false);
                 console.error(error);

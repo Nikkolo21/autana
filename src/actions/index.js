@@ -4,12 +4,24 @@ import {
     HEADER_IS_FETCHING,
     EMAIL_VERIFIED,
     CHOOSED_USER_TYPE,
-    CHOOSED_BASIC_INPUT
+    CHOOSED_BASIC_INPUT,
+    OPEN_CLOSE_ASIDE,
+    SHOW_ASIDE_BUTTONS
 } from "../constants/action-types";
 
 export const openAndCloseModal = modal => ({
     type: OPEN_CLOSE_MODAL,
     payload: modal
+});
+
+export const openAndCloseAside = payload => ({
+    type: OPEN_CLOSE_ASIDE,
+    payload
+});
+
+export const showAsideButtons = payload => ({
+    type: SHOW_ASIDE_BUTTONS,
+    payload
 });
 
 export const addClientUID = uid => ({

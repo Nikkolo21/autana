@@ -18,6 +18,11 @@ import { addClientUID, isFetching, emailVerified, choosedUserType } from './acti
 import { redirect } from './actions/redirect';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import AsideButtons from './components/aside/AsideButtons';
+import AddAtom from './components/atom/AddAtom';
+import Modal from './components/util/Modal';
+import AsideMenu from './components/aside/AsideMenu';
+import ListAtoms from './components/atom/ListAtoms';
 
 class Routes extends Component {
   componentDidMount() {
@@ -46,7 +51,7 @@ class Routes extends Component {
   }
 
   render() {
-    const { isAuth, children, choosedUserType, userType } = this.props;
+    const { isAuth, children, choosedUserType, userType, asideButton, asideIsOpen, modalIsOpen, project_id } = this.props;
     return (
       <Router>
         <Fragment>
@@ -67,6 +72,15 @@ class Routes extends Component {
               )
             }
           </div>
+          {
+            asideButton && asideButton.show && (<AsideButtons />)
+          }
+          {
+            asideIsOpen && (<AsideMenu> <ListAtoms project_id={project_id} /> </AsideMenu>)
+          }
+          {
+            modalIsOpen && (<Modal> <AddAtom /> </Modal>)
+          }
         </Fragment>
       </Router>
     )
@@ -74,10 +88,14 @@ class Routes extends Component {
 }
 
 const mapStateToProps = state => ({
+  asideButton: state.app.aside_buttons,
+  asideIsOpen: state.app.aside,
+  project_id: state.projects.id,
   choosedUserType: state.auth.choosedUserType,
   emailVerified: state.auth.emailVerified,
   isAuth: state.auth.isAuth,
   isFetching: state.auth.isFetching,
+  modalIsOpen: state.app.modal,
   uid: state.auth.uid,
   userType: state.auth.userType
 })

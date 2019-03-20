@@ -4,11 +4,14 @@ import { Link } from 'react-router-dom';
 
 export default class CarousselElement extends Component {
     render() {
-        const { square } = this.props;
+        const { square, constant_height, constant_width } = this.props;
         let creationDate = timeStampToDate(square.creationDate);
         let updateDate = timeStampToDate(square.updateDate);
         return (
-            <Link to={{ pathname: `/atom/${square.key}` }} className="square" onClick={this._whoIs}>
+            <Link to={{ pathname: `/atom/${square.key}` }}
+                className={`square ${constant_height ? 'constHeight' : 'varHeight'} ${constant_width ? 'constWidth' : 'varWidth'}`}
+                onClick={this._whoIs}
+            >
                 <div className="squareTitle ellipsisText" title={square.name}>
                     {square.name}
                 </div>

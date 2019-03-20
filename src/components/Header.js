@@ -6,9 +6,6 @@ import { auth } from '../base';
 
 import * as routes from '../constants/routes';
 
-import AddAtom from './atom/AddAtom';
-import Modal from './util/Modal';
-
 import { openAndCloseModal } from '../actions'
 import './header.css';
 import { bindActionCreators } from 'redux';
@@ -29,7 +26,8 @@ class Header extends Component {
   }
 
   render() {
-    let { choosedUserType, isFetching, loggedIn, modalIsOpen, _openModal, userType } = this.props;
+    let { choosedUserType, isFetching, loggedIn, _openModal, userType } = this.props;
+    console.log(this.props);
     return (
       <div className="header bg-white py-4 px-xs-2 px-sm-5">
         <div className="d-flex justify-content-between">
@@ -59,12 +57,6 @@ class Header extends Component {
             )
           }
         </div>
-        {
-          modalIsOpen &&
-          (<Modal>
-            <AddAtom />
-          </Modal>)
-        }
       </div>
     )
   }
@@ -74,7 +66,6 @@ const mapStateToProps = state => ({
   choosedUserType: state.auth.choosedUserType,
   isFetching: state.client.isFetching,
   loggedIn: state.auth.isAuth,
-  modalIsOpen: state.atoms.modal,
   userType: state.auth.userType
 })
 

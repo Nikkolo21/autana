@@ -4,12 +4,9 @@
     height: 240px;
     width: 100%;
     padding: .5% .5%;
-    text-align:center;
     background-color: rgba(10,10,10,0.02)
 }
 .square {
-    width: 24%;
-    height: 95%;
     background-color: white;
     margin-left: .5%;
     margin-right: .5%;
@@ -19,6 +16,25 @@
     border-radius: 4px;
     text-decoration: none !important;
     color: rgba(10, 10, 10, 0.8);
+    text-align:center;
+}
+
+.varHeight {
+    height: 95%;
+}
+
+.constHeight {
+    min-height: 200px;
+    height: auto;
+}
+
+.varWidth {
+    width: 24%;
+}
+
+.constWidth {
+    min-width: 200px;
+    width: auto;
 }
 
 .square:hover {
@@ -71,16 +87,21 @@
 }
 
 @media only screen and (max-width: 768px) {
-    .square {
+    .varWidth {
         width: 32%;
+    }
+    .square {
         margin-left: .5%;
         margin-right: .5%;
     }
 }
 
 @media only screen and (max-width: 520px) {
-    .square {
+    .varWidth {
         width: 49%;
+    }
+
+    .square {
         margin-left: .5%;
         margin-right: .5%;
     }

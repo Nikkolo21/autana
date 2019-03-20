@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { isFetching } from '../../actions/projects/projects';
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { timeStampToDate } from '../../helpers';
@@ -94,4 +93,4 @@ const mapStateToProps = state => ({
     loading: state.projects.isFetching
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(BasicProjectInfo));
+export default connect(mapStateToProps, mapDispatchToProps)(BasicProjectInfo);

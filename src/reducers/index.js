@@ -8,16 +8,18 @@ import authReducer from './authReducer';
 import redirectReducer from './redirectReducer';
 import addAtomReducer from './addAtomReducer';
 import inputReducer from './inputReducer';
+import appReducer from './appReducer';
 
 const reducer = {
     add_project: addProjectReducer,
     add_atom: addAtomReducer,
+    app: appReducer,
     atoms: atomsReducer,
     auth: authReducer,
     input: inputReducer,
     client: clientReducer,
     projects: projectsReducer,
-    redirect: redirectReducer
+    redirect: redirectReducer,
 }
 
 export const rootReducer = combineReducers(reducer);

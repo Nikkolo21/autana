@@ -29,7 +29,7 @@ class ShowAtom extends Component {
         return (
             <div className="row my-2 my-md-3 my-lg-5 px-md-2 px-lg-4">
                 <div className="col-4 col-md-3 mb-2">
-                    <div id="menuAtomSection" className="card card-body">
+                    <div className="card card-body p-3">
                         {
                             views.map((elem, index) => {
                                 return <MenuDisplayLink key={index} setViewFn={this.setDisplayView}

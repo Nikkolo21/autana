@@ -1,19 +1,35 @@
 import React, { Component } from 'react';
 import BasicProjectInfo from './BasicProjectInfo';
-import ListAtoms from '../atom/ListAtoms';
 import MenuDisplayLink from '../menu/MenuDisplayLink';
 import TechProjectInfo from './TechProjectInfo';
-import AtomTreeProject from './AtomTreeProject';
+import TreeView from '../tree/TreeView';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { showAsideButtons, openAndCloseAside } from '../../actions';
+import { setProjectId } from '../../actions/projects/projects';
 
-export default class ShowProject extends Component {
+class ShowProject extends Component {
     constructor(props) {
         super(props);
         this.state = {
             view: 'Basic',
             views: [
-                "Basic", "Technical", "Tree", "Atoms"
+                "Basic", "Technical", "Tree", "Atoms",
             ],
         }
+    }
+
+    componentDidMount() {
+        const { _setProjectId, _showAsideButtons, match: { params: { id } } } = this.props;
+        _showAsideButtons({ show: true, type: 'project' });
+        _setProjectId(id);
+    }
+
+    componentWillUnmount() {
+        const { _setProjectId, _showAsideButtons, _openAndCloseAside } = this.props;
+        _showAsideButtons({ show: false });
+        _setProjectId(null);
+        _openAndCloseAside(false);
     }
 
     setDisplayView = (view) => {
@@ -24,8 +40,8 @@ export default class ShowProject extends Component {
         const { view, views } = this.state;
         return (
             <div className="row my-2 my-md-3 my-lg-5 px-md-2 px-lg-4">
-                <div className="col-4 col-md-3 mb-2">
-                    <div className="card card-body">
+                <div className='col-4 col-md-3 mb-2'>
+                    <div className="card card-body p-3">
                         {
                             views.map((elem, index) => {
                                 return <MenuDisplayLink key={index} setViewFn={this.setDisplayView}
@@ -39,10 +55,22 @@ export default class ShowProject extends Component {
                 {view === 'Technical' &&
                     <TechProjectInfo config={{ className: 'col-8 col-md-9' }} project_id={this.props.match.params.id} />}
                 {view === 'Tree' &&
-                    <AtomTreeProject config={{ className: 'col-8 col-md-9' }} project_id={this.props.match.params.id} />}
-                {view === 'Atoms' &&
-                    <ListAtoms config={{ className: 'col-8 col-md-9' }} project_id={this.props.match.params.id} />}
+                    <TreeView config={{ className: 'col-8 col-md-9' }} project_id={this.props.match.params.id} />}
             </div>
         )
     }
 }
+
+const mapStateToProps = state => ({
+    aside_buttons: state.app.aside_buttons
+})
+
+const mapDisptachToProps = dispatch => (
+    bindActionCreators({
+        _showAsideButtons: showAsideButtons,
+        _setProjectId: setProjectId,
+        _openAndCloseAside: openAndCloseAside,
+    }, dispatch)
+)
+
+export default connect(mapStateToProps, mapDisptachToProps)(ShowProject);

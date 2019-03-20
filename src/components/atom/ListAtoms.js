@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { atomSectionIsFetching } from '../../actions/atoms/atoms';
-import Atom from '../atom/Atom';
 import { firestoreDB } from '../../base';
+import CarousselElement from '../util/caroussel/CarousselElement';
+import './Atom.css';
 
 class ListAtoms extends Component {
     constructor(props) {
@@ -30,7 +31,7 @@ class ListAtoms extends Component {
         const { atoms } = this.state;
         const { atomIsFetching } = this.props;
         const atomsRender = atoms[0] ? atoms.map((atom, index) => {
-            return (<Atom projectId={this.props.project_id} key={index} atom={atom} />)
+            return (<CarousselElement project_key={this.props.project_id} key={index} square={atom} constant_width constant_height />)
         }) : false
         return (
             <div {...this.props.config}>
