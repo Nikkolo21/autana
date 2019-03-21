@@ -25,13 +25,13 @@ class AsideMenu extends Component {
                 <div className="hud">
                     {
                         listed ?
-                            <div title="boxes" className="listAtomIcon" onClick={this._changeView}>
+                            <div title="cards" className="listAtomIcon" onClick={this._changeView}>
                                 <div className="icon2">
                                     <div className="line1" />
                                     <div className="line2" />
                                 </div>
                             </div> :
-                            <div title="listed" className="listAtomIcon" onClick={this._changeView}>
+                            <div title="list" className="listAtomIcon" onClick={this._changeView}>
                                 <div className="elm">
                                     <div className="line" />
                                 </div>
