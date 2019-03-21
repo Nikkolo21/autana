@@ -6,8 +6,14 @@ import {
     CHOOSED_USER_TYPE,
     CHOOSED_BASIC_INPUT,
     OPEN_CLOSE_ASIDE,
-    SHOW_ASIDE_BUTTONS
+    SHOW_ASIDE_BUTTONS,
+    ASIDE_IS_LISTED
 } from "../constants/action-types";
+
+export const asideIsListed = payload => ({
+    type: ASIDE_IS_LISTED,
+    payload
+});
 
 export const openAndCloseModal = modal => ({
     type: OPEN_CLOSE_MODAL,

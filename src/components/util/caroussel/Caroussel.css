@@ -35,6 +35,10 @@
     width: 200px;
 }
 
+.marginBottom {
+    margin-bottom: 10px;
+}
+
 .square:hover {
     color: rgba(10, 10, 10, 0.8);
 }

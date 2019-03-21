@@ -5,6 +5,7 @@ import { atomSectionIsFetching } from '../../actions/atoms/atoms';
 import { firestoreDB } from '../../base';
 import CarousselElement from '../util/caroussel/CarousselElement';
 import './Atom.css';
+import TreeElement from '../tree/TreeElement';
 
 class ListAtoms extends Component {
     constructor(props) {
@@ -29,9 +30,13 @@ class ListAtoms extends Component {
 
     render() {
         const { atoms } = this.state;
-        const { atomIsFetching } = this.props;
+        const { atomIsFetching, asideIsListed } = this.props;
         const atomsRender = atoms[0] ? atoms.map((atom, index) => {
-            return (<CarousselElement project_key={this.props.project_id} key={index} square={atom} constant_width constant_height />)
+            return (
+                asideIsListed ?
+                    <TreeElement elem={{ ...atom, type: 'atom' }} /> :
+                    <CarousselElement project_key={this.props.project_id} key={index} square={atom} constant_width constant_height margin_bottom />
+            )
         }) : false
         return (
             <div {...this.props.config}>
@@ -45,7 +50,8 @@ class ListAtoms extends Component {
 }
 
 const mapStateToProps = state => ({
-    atomIsFetching: state.atoms.isFetching
+    atomIsFetching: state.atoms.isFetching,
+    asideIsListed: state.app.aside_listed,
 })
 
 const mapDispatchToProps = dispatch => (

@@ -1,6 +1,6 @@
-import { OPEN_CLOSE_MODAL, OPEN_CLOSE_ASIDE, SHOW_ASIDE_BUTTONS } from '../constants/action-types';
+import { OPEN_CLOSE_MODAL, OPEN_CLOSE_ASIDE, SHOW_ASIDE_BUTTONS, ASIDE_IS_LISTED } from '../constants/action-types';
 
-export default function appReducer(state = { modal: false, aside: false }, action) {
+export default function appReducer(state = { modal: false, aside: false, aside_listed: false }, action) {
     switch (action.type) {
         case OPEN_CLOSE_MODAL:
             return { ...state, modal: !state.modal };
@@ -8,6 +8,8 @@ export default function appReducer(state = { modal: false, aside: false }, actio
             return { ...state, aside: action.payload };
         case SHOW_ASIDE_BUTTONS:
             return { ...state, aside_buttons: action.payload };
+        case ASIDE_IS_LISTED:
+            return { ...state, aside_listed: action.payload };
         default:
             return state;
     }

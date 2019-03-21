@@ -1,42 +1,18 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getAtom } from '../../services/atomServices';
+import { Link } from 'react-router-dom';
 import './Tree.css';
-import { setTree } from '../../actions/tree/tree';
 
 class TreeElement extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-    }
-    componentDidMount() {
-        const { elem } = this.props;
-        getAtom(elem.id, doc => {
-            this.setState({ ...doc.data() });
-        }, error => {
-            console.log(error);
-        })
-    }
-
-    _onDragStart = (ev) => {
-        ev.dataTransfer.setData("text", ev.target.id);
-    }
-
     render() {
         const { elem } = this.props;
-        const { name } = this.state;
         return (
-            <div className="treeBox">
-                <div className="row">
-                    {
-                        name &&
-                        <div id={elem.id} draggable="true" onDragStart={this._onDragStart} className={`treeElem ${elem.type}`}>
-                            <p> {name} : {elem.order} </p>
-                        </div>
-                    }
+            <Link className="treeBox" to={{ pathname: `/atom/${elem.key}` }}>
+                <div title={elem.name} className={`treeElem ellipsisText ${elem.type}`}>
+                    {elem.name}
                 </div>
-            </div>
+            </Link>
         )
     }
 }
@@ -48,7 +24,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => (
     bindActionCreators({
-        _setTree: setTree,
     }, dispatch)
 )
 
