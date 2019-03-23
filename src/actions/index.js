@@ -7,7 +7,8 @@ import {
     CHOOSED_BASIC_INPUT,
     OPEN_CLOSE_ASIDE,
     SHOW_ASIDE_BUTTONS,
-    ASIDE_IS_LISTED
+    ASIDE_IS_LISTED,
+    IS_MOBILE
 } from "../constants/action-types";
 
 export const asideIsListed = payload => ({
@@ -33,6 +34,11 @@ export const showAsideButtons = payload => ({
 export const addClientUID = uid => ({
     type: ADD_CLIENT_UID,
     payload: uid
+});
+
+export const setIsMobile = payload => ({
+    type: IS_MOBILE,
+    payload
 });
 
 export const isFetching = (isFetching) => ({

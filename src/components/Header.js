@@ -27,7 +27,6 @@ class Header extends Component {
 
   render() {
     let { choosedUserType, isFetching, loggedIn, _openModal, userType } = this.props;
-    console.log(this.props);
     return (
       <div className="header bg-white py-4 px-xs-2 px-sm-5">
         <div className="d-flex justify-content-between">

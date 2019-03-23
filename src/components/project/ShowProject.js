@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { showAsideButtons, openAndCloseAside } from '../../actions';
 import { setProjectId } from '../../actions/projects/projects';
+import TopMenu from '../menu/TopMenu';
 
 class ShowProject extends Component {
     constructor(props) {
@@ -14,7 +15,9 @@ class ShowProject extends Component {
         this.state = {
             view: 'Basic',
             views: [
-                "Basic", "Technical", "Tree", "Atoms",
+                { name: "Basic" },
+                { name: "Technical" },
+                { name: "Tree" },
             ],
         }
     }
@@ -32,37 +35,43 @@ class ShowProject extends Component {
         _openAndCloseAside(false);
     }
 
-    setDisplayView = (view) => {
+    _setDisplayView = (view) => {
         this.setState({ view });
     }
 
     render() {
         const { view, views } = this.state;
+        const { match, isMobile } = this.props;
         return (
             <div className="row my-2 my-md-3 my-lg-5 px-md-2 px-lg-4">
-                <div className='col-4 col-md-3 mb-2'>
-                    <div className="card card-body p-3">
-                        {
-                            views.map((elem, index) => {
-                                return <MenuDisplayLink key={index} setViewFn={this.setDisplayView}
-                                    activeView={view} viewName={elem} atom={false} />
-                            })
-                        }
-                    </div>
-                </div>
+                {
+                    isMobile ?
+                        <TopMenu onClickFn={this._setDisplayView} menu={views} active={view} activeClass="activeMenuProjects" /> :
+                        <div className='col-4 col-md-3 mb-2'>
+                            <div className="card card-body p-3">
+                                {
+                                    views.map((elem, index) => {
+                                        return <MenuDisplayLink key={index} setViewFn={this._setDisplayView}
+                                            activeView={view} viewName={elem.name} atom={false} />
+                                    })
+                                }
+                            </div>
+                        </div>
+                }
                 {view === 'Basic' &&
-                    <BasicProjectInfo config={{ className: 'col-8 col-md-9' }} project_id={this.props.match.params.id} />}
+                    <BasicProjectInfo config={{ className: isMobile ? 'col-12' : 'col-8 col-md-9' }} project_id={match.params.id} />}
                 {view === 'Technical' &&
-                    <TechProjectInfo config={{ className: 'col-8 col-md-9' }} project_id={this.props.match.params.id} />}
+                    <TechProjectInfo config={{ className: isMobile ? 'col-12' : 'col-8 col-md-9' }} project_id={match.params.id} />}
                 {view === 'Tree' &&
-                    <TreeView config={{ className: 'col-8 col-md-9' }} project_id={this.props.match.params.id} />}
+                    <TreeView config={{ className: isMobile ? 'col-12' : 'col-8 col-md-9' }} project_id={match.params.id} />}
             </div>
         )
     }
 }
 
 const mapStateToProps = state => ({
-    aside_buttons: state.app.aside_buttons
+    aside_buttons: state.app.aside_buttons,
+    isMobile: state.app.is_mobile,
 })
 
 const mapDisptachToProps = dispatch => (

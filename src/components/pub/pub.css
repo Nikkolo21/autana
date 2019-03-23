@@ -1,0 +1,20 @@
+.pubBox {
+    width: 100%;
+}
+.emptyPub {
+    height: 400px;
+    background-color: rgba(10,10,10,0.1);
+    line-height: 400px;
+    text-align: center;
+}
+
+.pubTabBox {
+    min-height: 70vh;
+    height: auto;
+}
+
+.btnEmptyPub {
+    padding: 10px 30px !important;
+    background-color: white;
+    transition: .5s;
+}

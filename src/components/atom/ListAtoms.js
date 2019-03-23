@@ -17,6 +17,7 @@ class ListAtoms extends Component {
     componentDidMount() {
         this.props._atomSectionIsFetching(true);
         this.unbsubcribe = firestoreDB.collection("atoms").where("projectId", "==", this.props.project_id).orderBy("creationDate", "desc").onSnapshot(querySnapshot => {
+            this.setState({ atoms: [] });
             querySnapshot.forEach((doc) => {
                 this.setState({ atoms: [...this.state.atoms, { key: doc.id, ...doc.data() }] });
             });
@@ -34,8 +35,8 @@ class ListAtoms extends Component {
         const atomsRender = atoms[0] ? atoms.map((atom, index) => {
             return (
                 asideIsListed ?
-                    <TreeElement elem={{ ...atom, type: 'atom' }} /> :
-                    <CarousselElement project_key={this.props.project_id} key={index} square={atom} constant_width constant_height margin_bottom />
+                    <TreeElement key={index} elem={{ ...atom, type: 'atom' }} /> :
+                    <CarousselElement key={index} project_key={this.props.project_id} square={atom} constant_width constant_height margin_bottom />
             )
         }) : false
         return (

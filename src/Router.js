@@ -14,7 +14,7 @@ import LetsGo from './components/LetsGo';
 import HunterRoutes from './components/router/HunterRoutes';
 import NomadRoutes from './components/router/NomadRoutes';
 
-import { addClientUID, isFetching, emailVerified, choosedUserType } from './actions';
+import { addClientUID, isFetching, emailVerified, choosedUserType, setIsMobile } from './actions';
 import { redirect } from './actions/redirect';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -23,10 +23,11 @@ import AddAtom from './components/atom/AddAtom';
 import Modal from './components/util/Modal';
 import AsideMenu from './components/aside/AsideMenu';
 import ListAtoms from './components/atom/ListAtoms';
+import { check } from './utils/chekMobile';
 
 class Routes extends Component {
   componentDidMount() {
-    const { _isFetching, _emailVerified, _addClientUID, _redirect, _choosedUserType } = this.props;
+    const { _isFetching, _emailVerified, _addClientUID, _redirect, _choosedUserType, _setIsMobile } = this.props;
     _isFetching(true);
     auth.onAuthStateChanged((user) => {
       if (user && user.uid) {
@@ -48,6 +49,7 @@ class Routes extends Component {
         _redirect(false);
       }
     })
+    _setIsMobile(check());
   }
 
   render() {
@@ -103,10 +105,11 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => (
   bindActionCreators({
     _addClientUID: addClientUID,
+    _choosedUserType: choosedUserType,
     _emailVerified: emailVerified,
     _isFetching: isFetching,
     _redirect: redirect,
-    _choosedUserType: choosedUserType
+    _setIsMobile: setIsMobile,
   }, dispatch)
 )
 

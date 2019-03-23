@@ -1,5 +1,7 @@
 export const ADD_CLIENT_UID = "ADD_CLIENT_UID";
 
+export const IS_MOBILE = "IS_MOBILE";
+
 export const OPEN_CLOSE_MODAL = "OPEN_CLOSE_MODAL";
 
 export const OPEN_CLOSE_ASIDE = "OPEN_CLOSE_ASIDE";

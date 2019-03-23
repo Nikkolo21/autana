@@ -19,7 +19,7 @@ class Projects extends Component {
         this.props._projectIsFetching();
         getProjectsByUserId(this.props.uid, { orderBy: "creationDate", orderType: "desc" }, response => {
             this.props._projectIsFetching();
-            response.forEach((doc) => {
+            response.forEach(doc => {
                 this.setState({ projects: [...this.state.projects, { ...doc.data(), key: doc.id }] });
             });
         }, error => {
